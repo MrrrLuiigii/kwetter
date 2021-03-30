@@ -147,6 +147,65 @@
           }
         }
       }
+    },
+    "profile-service": {
+      "root": "apps/profile-service",
+      "sourceRoot": "apps/profile-service/src",
+      "projectType": "application",
+      "prefix": "profile-service",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/profile-service",
+            "main": "apps/profile-service/src/main.ts",
+            "tsConfig": "apps/profile-service/tsconfig.app.json",
+            "assets": [
+              "apps/profile-service/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/profile-service/src/environments/environment.ts",
+                  "with": "apps/profile-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "profile-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/profile-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/profile-service"
+          ],
+          "options": {
+            "jestConfig": "apps/profile-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
