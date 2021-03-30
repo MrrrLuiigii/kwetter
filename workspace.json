@@ -13,12 +13,16 @@
       "targets": {
         "build": {
           "executor": "@nrwl/node:build",
-          "outputs": ["{options.outputPath}"],
+          "outputs": [
+            "{options.outputPath}"
+          ],
           "options": {
             "outputPath": "dist/apps/auth-service",
             "main": "apps/auth-service/src/main.ts",
             "tsConfig": "apps/auth-service/tsconfig.app.json",
-            "assets": ["apps/auth-service/src/assets"]
+            "assets": [
+              "apps/auth-service/src/assets"
+            ]
           },
           "configurations": {
             "production": {
@@ -43,14 +47,102 @@
         "lint": {
           "executor": "@nrwl/linter:eslint",
           "options": {
-            "lintFilePatterns": ["apps/auth-service/**/*.ts"]
+            "lintFilePatterns": [
+              "apps/auth-service/**/*.ts"
+            ]
           }
         },
         "test": {
           "executor": "@nrwl/jest:jest",
-          "outputs": ["coverage/apps/auth-service"],
+          "outputs": [
+            "coverage/apps/auth-service"
+          ],
           "options": {
             "jestConfig": "apps/auth-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "models": {
+      "root": "libs/models",
+      "sourceRoot": "libs/models/src",
+      "projectType": "library",
+      "targets": {
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "libs/models/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/libs/models"
+          ],
+          "options": {
+            "jestConfig": "libs/models/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
+    },
+    "mail-service": {
+      "root": "apps/mail-service",
+      "sourceRoot": "apps/mail-service/src",
+      "projectType": "application",
+      "prefix": "mail-service",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/mail-service",
+            "main": "apps/mail-service/src/main.ts",
+            "tsConfig": "apps/mail-service/tsconfig.app.json",
+            "assets": [
+              "apps/mail-service/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/mail-service/src/environments/environment.ts",
+                  "with": "apps/mail-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "mail-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/mail-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/mail-service"
+          ],
+          "options": {
+            "jestConfig": "apps/mail-service/jest.config.js",
             "passWithNoTests": true
           }
         }
