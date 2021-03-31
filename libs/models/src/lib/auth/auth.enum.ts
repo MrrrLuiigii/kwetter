@@ -9,3 +9,9 @@ export enum AccountStatus {
 	Active,
 	Banned
 }
+
+export enum TokenStatus {
+	Valid,
+	Expired,
+	Invalid
+}

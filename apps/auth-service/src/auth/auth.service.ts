@@ -13,7 +13,7 @@ import Authentication from "./auth.entity";
 import { UnauthorizedException } from "@kwetter/models";
 
 //enums
-import { AccountStatus, Role } from "@kwetter/models";
+import { AccountStatus, Role, TokenStatus } from "@kwetter/models";
 
 //viewmodels
 import { AuthVM } from "@kwetter/models";
@@ -60,6 +60,23 @@ export class AuthService {
 		return this.createJWT(auth);
 	}
 
+	public async verify(token: string): Promise<AuthVM> {
+		const tokenStatus = this.validateJWT(token);
+
+		if (tokenStatus.status === TokenStatus.Valid) {
+			const { username } = tokenStatus.decoded as AuthVM;
+			const authentication = await this.authRepository.findOne({
+				where: { username }
+			});
+
+			authentication.status = AccountStatus.Active;
+
+			return this.createJWT(await this.authRepository.save(authentication));
+		}
+
+		throw new UnauthorizedException("Invalid token...");
+	}
+
 	public createJWT(auth: Authentication): AuthVM {
 		const token: string = jwt.sign(
 			{ username: auth.username, email: auth.email, role: auth.role },
@@ -77,14 +94,21 @@ export class AuthService {
 		return authVM;
 	}
 
-	public validateJWT(token: string): boolean {
+	public validateJWT(token: string): { status: TokenStatus; decoded: Object } {
 		token = token.substring(token.indexOf(" ") + 1);
 
+		//TODO: throw different error types
+		const tokenErr = {
+			TOKEN_EXPIRED: "TokenExpiredError",
+			TOKEN_ERR: "JsonWebTokenError",
+			NOT_BEFORE: "NotBeforeError"
+		};
+
 		try {
-			jwt.verify(token, this.jwtSecret);
-			return true;
+			const decoded = jwt.verify(token, this.jwtSecret);
+			return { status: TokenStatus.Valid, decoded };
 		} catch (err) {
-			throw new Error(err.name);
+			return { status: TokenStatus.Invalid, decoded: {} };
 		}
 	}
 }

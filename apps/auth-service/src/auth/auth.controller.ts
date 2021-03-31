@@ -1,4 +1,4 @@
-import { Body, Controller, Headers, Inject, Post } from "@nestjs/common";
+import { Body, Controller, Headers, Inject, Patch, Post } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
 //services
@@ -16,12 +16,6 @@ import {
 
 const typeOrmErr = {
 	DUPE_ENTRY: "ER_DUP_ENTRY"
-};
-
-const tokenErr = {
-	TOKEN_EXPIRED: "TokenExpiredError",
-	TOKEN_ERR: "JsonWebTokenError",
-	NOT_BEFORE: "NotBeforeError"
 };
 
 @Controller("auth")
@@ -43,7 +37,11 @@ export class AuthController {
 			.then((auth) => {
 				const authVM = this.authService.createJWT(auth);
 				this.client
-					.send<string, object>("USER_REGISTERED", { username, email })
+					.send<string, object>("USER_REGISTERED", {
+						username,
+						email,
+						jwt: authVM.token
+					})
 					.toPromise();
 				return authVM;
 			})
@@ -68,15 +66,8 @@ export class AuthController {
 			});
 	}
 
-	@Post("verify")
+	@Patch("verify")
 	async verify(@Headers() { authorization }) {
-		try {
-			this.authService.validateJWT(authorization);
-			return true;
-		} catch (err) {
-			if (err.message === tokenErr.TOKEN_EXPIRED)
-				throw new UnauthorizedException("Token expired...");
-			throw new UnauthorizedException("Token invalid...");
-		}
+		return await this.authService.verify(authorization);
 	}
 }
