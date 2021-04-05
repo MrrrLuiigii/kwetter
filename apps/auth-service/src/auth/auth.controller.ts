@@ -1,11 +1,20 @@
-import { Body, Controller, Headers, Inject, Patch, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	Headers,
+	HttpCode,
+	Inject,
+	Patch,
+	Post
+} from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
 //services
 import { AuthService } from "./auth.service";
 
 //dto
-import { RegisterRequest, LoginRequest } from "@kwetter/models";
+import { RegisterRequest, LoginRequest, TokenStatus } from "@kwetter/models";
 
 //exceptions
 import {
@@ -55,6 +64,7 @@ export class AuthController {
 	}
 
 	@Post("login")
+	@HttpCode(200)
 	async login(@Body() { username, password }: LoginRequest) {
 		return await this.authService
 			.login(username, password)
@@ -69,5 +79,19 @@ export class AuthController {
 	@Patch("verify")
 	async verify(@Headers() { authorization }) {
 		return await this.authService.verify(authorization);
+	}
+
+	@Get("validate")
+	async validate(@Headers() { authorization }) {
+		const { status } = this.authService.validateJWT(authorization);
+
+		switch (status) {
+			case TokenStatus.Valid:
+				return true;
+			case TokenStatus.Expired:
+				throw new InternalServerException("Token expired...");
+			case TokenStatus.Invalid:
+				throw new InternalServerException("Invalid token...");
+		}
 	}
 }
