@@ -83,11 +83,11 @@ export class AuthController {
 
 	@Get("validate")
 	async validate(@Headers() { authorization }) {
-		const { status } = this.authService.validateJWT(authorization);
+		const { status, decoded } = this.authService.validateJWT(authorization);
 
 		switch (status) {
 			case TokenStatus.Valid:
-				return true;
+				return { status: true, decoded };
 			case TokenStatus.Expired:
 				throw new InternalServerException("Token expired...");
 			case TokenStatus.Invalid:

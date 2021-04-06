@@ -1,7 +1,7 @@
 import { AccountStatus, Role } from "./auth.enum";
 
 export class AuthVM {
-	id: number;
+	id: string;
 	username: string;
 	email: string;
 	role: Role;

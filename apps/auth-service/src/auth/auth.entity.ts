@@ -5,8 +5,8 @@ import { AccountStatus, Role } from "@kwetter/models";
 
 @Entity("Authentication")
 export default class Authentication {
-	@PrimaryGeneratedColumn()
-	id!: number;
+	@PrimaryGeneratedColumn("uuid")
+	id!: string;
 
 	@Column({ unique: true })
 	username!: string;
