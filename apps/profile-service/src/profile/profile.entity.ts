@@ -3,7 +3,10 @@ import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 @Entity("Profile")
 export default class Profile {
 	@PrimaryGeneratedColumn("uuid")
-	id!: string;
+	id?: string;
+
+	@Column({ unique: true })
+	authId!: string;
 
 	@Column()
 	name!: string;
@@ -15,20 +18,20 @@ export default class Profile {
 	bio!: string;
 
 	@Column("simple-array", { nullable: true })
-	followers!: string[];
+	followers?: string[];
 
 	@Column("simple-array", { nullable: true })
-	followed!: string[];
+	followed?: string[];
 
 	@Column("simple-array", { nullable: true })
-	likes!: string[];
+	likes?: string[];
 
 	@Column("simple-array", { nullable: true })
-	mentions!: string[];
+	mentions?: string[];
 
 	@Column("simple-array", { nullable: true })
-	kweets!: string[];
+	kweets?: string[];
 
 	@Column("simple-array", { nullable: true })
-	trends!: string[];
+	trends?: string[];
 }

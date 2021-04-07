@@ -5,7 +5,7 @@ import { ClientProxy } from "@nestjs/microservices";
 import { ProfileService } from "./profile.service";
 
 //dto
-import { CreateProfileRequest } from "@kwetter/models";
+import { DecodedToken, CreateProfileRequest } from "@kwetter/models";
 
 //exceptions
 import {
@@ -13,6 +13,7 @@ import {
 	UnauthorizedException,
 	InternalServerException
 } from "@kwetter/models";
+import Profile from "./profile.entity";
 
 @Controller("profile")
 export class ProfileController {
@@ -23,11 +24,11 @@ export class ProfileController {
 
 	@Post()
 	async createProfile(
-		@Headers() decoded: string,
+		@Headers("decoded") decoded: DecodedToken,
 		@Body() createProfileRequest: CreateProfileRequest
 	) {
-		console.log(decoded);
-		return await this.profileService.createProfile(createProfileRequest);
+		const profile: Profile = { ...createProfileRequest, authId: decoded.id };
+		return await this.profileService.createProfile(profile);
 	}
 
 	@Get()

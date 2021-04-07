@@ -1,4 +1,27 @@
-import { IsAlphanumeric, IsEmail, IsString, Length } from "class-validator";
+import {
+	IsAlphanumeric,
+	IsEmail,
+	IsEnum,
+	IsString,
+	Length
+} from "class-validator";
+
+import { Role } from "./auth.enum";
+
+export class DecodedToken {
+	@IsString()
+	id: string;
+
+	@IsAlphanumeric()
+	@Length(3, 15)
+	username: string;
+
+	@IsEmail()
+	email: string;
+
+	@IsEnum(Role)
+	role: Role;
+}
 
 export class RegisterRequest {
 	@IsAlphanumeric()

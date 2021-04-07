@@ -1,4 +1,3 @@
-import { CreateProfileRequest } from "@kwetter/models";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -13,7 +12,15 @@ export class ProfileService {
 		private profileRepository: Repository<Profile>
 	) {}
 
-	public async createProfile(profile: CreateProfileRequest): Promise<Profile> {
+	public async createProfile(profile: Profile): Promise<Profile> {
+		const oldProfile: Profile = await this.profileRepository.findOne({
+			where: { authId: profile.authId }
+		});
+
+		if (oldProfile) {
+			profile = { ...profile, id: oldProfile.id, authId: oldProfile.authId };
+		}
+
 		return await this.profileRepository.save(profile);
 	}
 

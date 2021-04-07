@@ -5,6 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
+import { authenticate } from "@kwetter/models";
 
 async function bootstrap() {
 	const app = await NestFactory.create(AppModule);
@@ -19,6 +20,7 @@ async function bootstrap() {
 	app.useGlobalPipes(new ValidationPipe());
 	app.enableCors();
 	await app.startAllMicroservicesAsync();
+	app.use(authenticate);
 	await app.listen(port);
 	console.log(`App is listening on: ${await app.getUrl()}`);
 }

@@ -56,6 +56,7 @@ export class AuthController {
 			})
 			.catch((err) => {
 				console.log(err);
+				//TODO: email is taken
 				let message = err.message;
 				if (err.code === typeOrmErr.DUPE_ENTRY)
 					message = "This username is taken...";

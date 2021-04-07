@@ -79,7 +79,12 @@ export class AuthService {
 
 	public createJWT(auth: Authentication): AuthVM {
 		const token: string = jwt.sign(
-			{ username: auth.username, email: auth.email, role: auth.role },
+			{
+				id: auth.id,
+				username: auth.username,
+				email: auth.email,
+				role: auth.role
+			},
 			this.jwtSecret,
 			{ expiresIn: "1h" }
 		);
