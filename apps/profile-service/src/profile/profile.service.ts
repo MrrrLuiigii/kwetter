@@ -24,7 +24,9 @@ export class ProfileService {
 		return await this.profileRepository.save(profile);
 	}
 
-	getData(): { message: string } {
-		return { message: "Welcome to profile-service!" };
+	public async getProfile(id: string, withAuth: boolean = false) {
+		if (withAuth)
+			return await this.profileRepository.findOne({ where: { authId: id } });
+		return await this.profileRepository.findOne(id);
 	}
 }

@@ -1,4 +1,12 @@
-import { Body, Controller, Get, Headers, Inject, Post } from "@nestjs/common";
+import {
+	Body,
+	Controller,
+	Get,
+	Headers,
+	Inject,
+	Param,
+	Post
+} from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
 //services
@@ -11,7 +19,8 @@ import { DecodedToken, CreateProfileRequest } from "@kwetter/models";
 import {
 	BadRequestException,
 	UnauthorizedException,
-	InternalServerException
+	InternalServerException,
+	NotFoundException
 } from "@kwetter/models";
 import Profile from "./profile.entity";
 
@@ -31,8 +40,18 @@ export class ProfileController {
 		return await this.profileService.createProfile(profile);
 	}
 
-	@Get()
-	getData() {
-		return this.profileService.getData();
+	@Get(":id?")
+	async getProfile(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("id") id?: string
+	) {
+		let profile = undefined;
+
+		if (!id || id === "")
+			profile = await this.profileService.getProfile(decoded.id, true);
+		else profile = await this.profileService.getProfile(id);
+
+		if (!profile) throw new NotFoundException();
+		return profile;
 	}
 }

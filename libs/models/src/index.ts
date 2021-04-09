@@ -4,6 +4,7 @@ export * from "./lib/auth/authenticate";
 export * from "./lib/exceptions/badRequest.exception";
 export * from "./lib/exceptions/internalServer.exception";
 export * from "./lib/exceptions/unauthorized.exception";
+export * from "./lib/exceptions/notFound.exception";
 
 export * from "./lib/auth/auth.dto";
 export * from "./lib/auth/auth.enum";
