@@ -20,16 +20,17 @@ script:
   - nx test profile-service
 
 after_success:
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - docker image build -t kwetter-auth-service -f auth-service.Dockerfile .
   - docker image build -t kwetter-mail-service -f mail-service.Dockerfile .
   - docker image build -t kwetter-profile-service -f profile-service.Dockerfile .
+  - docker image push docker.io/$DOCKER_USERNAME/kwetter-profile-service
+# before_deploy:
+#   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
-before_deploy:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+# deploy:
+#   provider: script
+#   script: docker image push docker.io/$DOCKER_USERNAME/kwetter-profile-service
 
-deploy:
-  provider: script
-  script: docker image push docker.io/$DOCKER_USERNAME/kwetter-profile-service
-
-notifications:
-  email: false
+# notifications:
+#   email: false
