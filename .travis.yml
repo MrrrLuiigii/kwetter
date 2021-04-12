@@ -29,7 +29,7 @@ before_deploy:
 
 deploy:
   provider: script
-  script: docker image push $DOCKER_USERNAME/kwetter-profile-service
+  script: docker image push docker.io/$DOCKER_USERNAME/kwetter-profile-service
 
 notifications:
   email: false
