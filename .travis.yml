@@ -26,8 +26,8 @@ after_success:
 
 before_deploy:
   - docker login -u "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" docker.io ;
-  -
+  - docker tag kwetter-profile-service $DOCKER_USERNAME/kwetter-profile-service:latest
 
 deploy:
   provider: script
-  script: docker push "$DOCKER_USERNAME"/kwetter-profile-service
+  script: docker push $DOCKER_USERNAME/kwetter-profile-service:latest ;
