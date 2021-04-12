@@ -1,10 +1,33 @@
 language: node_js
+
 node_js:
-  - "12"
+  - 12
+
+cache:
+  directories:
+    - node_modules
+
+services:
+  - docker
+
 branches:
 only:
   - master
+
 script:
   - nx test auth-service
   - nx test mail-service
   - nx test profile-service
+
+after_success:
+  - docker image build -t kwetter-auth-service -f auth-service.Dockerfile .
+  - docker image build -t kwetter-mail-service -f mail-service.Dockerfile .
+  - docker image build -t kwetter-profile-service -f profile-service.Dockerfile .
+
+before_deploy:
+  - docker login -u "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" docker.io ;
+  -
+
+deploy:
+  provider: script
+  script: docker push "$DOCKER_USERNAME"/kwetter-profile-service
