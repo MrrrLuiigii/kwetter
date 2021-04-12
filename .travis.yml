@@ -25,7 +25,7 @@ after_success:
   - docker image build -t kwetter-profile-service -f profile-service.Dockerfile .
 
 before_deploy:
-  - docker login -u "$DOCKER_USERNAME" --password "$DOCKER_PASSWORD" docker.io
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
 
 deploy:
   provider: script
