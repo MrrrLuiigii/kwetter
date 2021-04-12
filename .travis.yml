@@ -24,13 +24,5 @@ after_success:
   - docker image build -t $DOCKER_USERNAME/kwetter-auth-service -f auth-service.Dockerfile .
   - docker image build -t $DOCKER_USERNAME/kwetter-mail-service -f mail-service.Dockerfile .
   - docker image build -t $DOCKER_USERNAME/kwetter-profile-service -f profile-service.Dockerfile .
-  - docker image push $DOCKER_USERNAME/kwetter-profile-service
-# before_deploy:
-#   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-
-# deploy:
-#   provider: script
-#   script: docker image push docker.io/$DOCKER_USERNAME/kwetter-profile-service
-
-# notifications:
-#   email: false
+  - docker tag kwetter-profile-service $DOCKER_USERNAME/kwetter:kwetter-profile-service
+  - docker image push $DOCKER_USERNAME/kwetter:kwetter-profile-service
