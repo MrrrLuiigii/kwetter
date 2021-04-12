@@ -16,8 +16,8 @@
 		}
 	},
 	"projects": {
-		"auth-service": { "tags": [] },
 		"models": { "tags": [] },
+		"auth-service": { "tags": [] },
 		"mail-service": { "tags": [] },
 		"profile-service": { "tags": [] }
 	}
