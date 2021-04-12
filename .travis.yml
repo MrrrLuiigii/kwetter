@@ -4,3 +4,7 @@ node_js:
 branches:
 only:
   - master
+script:
+  - nx test auth-service
+  - nx test mail-service
+  - nx test profile-service
