@@ -18,7 +18,7 @@ import * as Joi from "joi";
 				NODE_ENV: Joi.string()
 					.valid("development", "production")
 					.default("development"),
-				PORT: Joi.number().required(),
+				PORT_MAIL: Joi.number().required(),
 				SMTP_CONNECTION: Joi.string().required()
 			})
 		}),

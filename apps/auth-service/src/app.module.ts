@@ -22,7 +22,7 @@ const configservice = new ConfigService();
 				NODE_ENV: Joi.string()
 					.valid("development", "production")
 					.default("development"),
-				PORT: Joi.number().default(3001),
+				PORT_AUTH: Joi.number().default(3001),
 				JWT_SECRET: Joi.string().required(),
 				TYPEORM_CONNECTION: Joi.string()
 					.valid(
@@ -48,7 +48,7 @@ const configservice = new ConfigService();
 				TYPEORM_HOST: Joi.string().required(),
 				TYPEORM_USERNAME: Joi.string().required(),
 				TYPEORM_PASSWORD: Joi.string().required(),
-				TYPEORM_DATABASE: Joi.string().required(),
+				TYPEORM_DATABASE_AUTH: Joi.string().required(),
 				TYPEORM_PORT: Joi.number().default(3306),
 				TYPEORM_SYNCHRONIZE: Joi.boolean().default(false),
 				TYPEORM_LOGGING: Joi.boolean().default(false)
@@ -60,7 +60,7 @@ const configservice = new ConfigService();
 			port: configservice.get<number>("TYPEORM_PORT"),
 			username: configservice.get<string>("TYPEORM_USERNAME"),
 			password: configservice.get<string>("TYPEORM_PASSWORD"),
-			database: configservice.get<string>("TYPEORM_DATABASE"),
+			database: configservice.get<string>("TYPEORM_DATABASE_AUTH"),
 			synchronize: configservice.get<boolean>("TYPEORM_SYNCHRONIZE"),
 			logging: configservice.get<boolean>("TYPEORM_LOGGING"),
 			entities: [Authentication]

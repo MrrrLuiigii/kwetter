@@ -16,7 +16,7 @@ async function bootstrap() {
 			auth_pass: "redispassword"
 		}
 	});
-	const port = new ConfigService().get<number>("PORT") || 3001;
+	const port = new ConfigService().get<number>("PORT") || 3003;
 	app.useGlobalPipes(new ValidationPipe());
 	app.enableCors();
 	await app.startAllMicroservicesAsync();
