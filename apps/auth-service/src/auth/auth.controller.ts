@@ -90,9 +90,9 @@ export class AuthController {
 			case TokenStatus.Valid:
 				return { status: true, decoded };
 			case TokenStatus.Expired:
-				throw new InternalServerException("Token expired...");
+				throw new UnauthorizedException("Token expired...");
 			case TokenStatus.Invalid:
-				throw new InternalServerException("Invalid token...");
+				throw new UnauthorizedException("Invalid token...");
 		}
 	}
 }
