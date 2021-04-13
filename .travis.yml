@@ -22,8 +22,8 @@ script:
 after_success:
   - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io
   - docker image build -t $DOCKER_USERNAME/kwetter-auth-service:latest -f kwetter-auth-service.Dockerfile .
-  - docker image build -t $DOCKER_USERNAME/kwetter-mail-service:latest -f kwetter-mail-service.Dockerfile .
-  - docker image build -t $DOCKER_USERNAME/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .
+  # - docker image build -t $DOCKER_USERNAME/kwetter-mail-service:latest -f kwetter-mail-service.Dockerfile .
+  # - docker image build -t $DOCKER_USERNAME/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .
   - docker image push $DOCKER_USERNAME/kwetter-auth-service:latest
-  - docker image push $DOCKER_USERNAME/kwetter-mail-service:latest
-  - docker image push $DOCKER_USERNAME/kwetter-profile-service:latest
+  # - docker image push $DOCKER_USERNAME/kwetter-mail-service:latest
+  # - docker image push $DOCKER_USERNAME/kwetter-profile-service:latest

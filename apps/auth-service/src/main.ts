@@ -14,6 +14,8 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 	: "";
 
 async function bootstrap() {
+	console.log(REDIS_HOST);
+
 	const app = await NestFactory.create(AppModule);
 	app.connectMicroservice<MicroserviceOptions>({
 		transport: Transport.REDIS,
