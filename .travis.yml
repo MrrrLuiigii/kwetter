@@ -24,5 +24,9 @@ after_success:
   - docker image build -t kwetter-auth-service -f auth-service.Dockerfile .
   - docker image build -t kwetter-mail-service -f mail-service.Dockerfile .
   - docker image build -t kwetter-profile-service -f profile-service.Dockerfile .
+  - docker tag kwetter-auth-service $DOCKER_USERNAME/kwetter:kwetter-auth-service
+  - docker tag kwetter-mail-service $DOCKER_USERNAME/kwetter:kwetter-mail-service
   - docker tag kwetter-profile-service $DOCKER_USERNAME/kwetter:kwetter-profile-service
+  - docker image push $DOCKER_USERNAME/kwetter:kwetter-auth-service
+  - docker image push $DOCKER_USERNAME/kwetter:kwetter-mail-service
   - docker image push $DOCKER_USERNAME/kwetter:kwetter-profile-service
