@@ -1,7 +1,5 @@
 FROM node:14.16-alpine
 
-RUN npm install -g nx
-
 WORKDIR /Kwetter/apps/mail-service
 COPY package.json .
 
