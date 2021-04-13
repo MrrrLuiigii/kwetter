@@ -20,10 +20,10 @@ script:
   - nx test profile-service
 
 after_success:
-  - docker login -u mrrrluiigii -p c1cdc9f7-2b9d-4425-99ad-af2b0aa923e5 docker.io
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
   # - docker image build -t $DOCKER_USERNAMEkwetter-auth-service -f kwetter-auth-service.Dockerfile .
   # - docker image build -t $DOCKER_USERNAME/kwetter-mail-service -f kwetter-mail-service.Dockerfile .
-  - docker image build -t mrrrluiigii/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .
+  - docker image build -t $DOCKER_USERNAME/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .
   # - docker image push $DOCKER_USERNAME/kwetter-auth-service:latest
   # - docker image push $DOCKER_USERNAME/kwetter-mail-service:latest
-  - docker image push mrrrluiigii/kwetter-profile-service:latest
+  - docker image push $DOCKER_USERNAME/kwetter-profile-service:latest
