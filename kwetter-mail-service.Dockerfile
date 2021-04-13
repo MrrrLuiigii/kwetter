@@ -8,6 +8,8 @@ COPY package.json .
 RUN npm install
 ADD . /Kwetter/apps/mail-service
 
+ENV REDIS_HOST "redis://172.17.0.1:6379"
+
 RUN nx build mail-service
 CMD ["nx", "serve", "mail-service"]
 EXPOSE 3002
