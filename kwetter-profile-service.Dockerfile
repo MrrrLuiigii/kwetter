@@ -1,5 +1,7 @@
 FROM node:12
 
+RUN npm install -g @nrwl/cli@12.0.1
+
 WORKDIR /Kwetter/apps/profile-service
 COPY package.json .
 
