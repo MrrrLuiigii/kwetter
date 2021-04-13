@@ -20,7 +20,7 @@ script:
   - nx test profile-service
 
 after_success:
-  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD docker.io
+  - echo $DOCKER_PASSWORD | docker login -u $DOCKER_USERNAME --password-stdin docker.io
   # - docker image build -t $DOCKER_USERNAMEkwetter-auth-service -f kwetter-auth-service.Dockerfile .
   # - docker image build -t $DOCKER_USERNAME/kwetter-mail-service -f kwetter-mail-service.Dockerfile .
   - docker image build -t $DOCKER_USERNAME/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .

@@ -6,7 +6,7 @@ COPY package.json .
 RUN npm install
 ADD . /Kwetter/apps/profile-service
 
-RUN npm install -g nx
+RUN npm install -g @nrwl/cli@12.0.1
 
 RUN nx build profile-service
 CMD ["nx", "serve", "profile-service"]
