@@ -1,4 +1,6 @@
-FROM node:14.16-alpine
+FROM node:12
+
+RUN npm install -g nx
 
 WORKDIR /Kwetter/apps/profile-service
 COPY package.json .
