@@ -1,4 +1,4 @@
-FROM node:14.16-alpine
+FROM node:12
 
 WORKDIR /Kwetter/apps/mail-service
 COPY package.json .

@@ -1,6 +1,6 @@
-FROM node:14.16-alpine
+FROM node:12
 
-RUN npm install -g nx
+RUN npm install -g @nrwl/cli@12.0.1
 
 WORKDIR /Kwetter/apps/auth-service
 COPY package.json .
