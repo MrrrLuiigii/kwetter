@@ -7,7 +7,10 @@ import { UnauthorizedException } from "../exceptions/unauthorized.exception";
 
 //TODO: move to gateway
 
-const AUTH_URL = "http://localhost:3001/auth/validate";
+const AUTH_URL =
+	(process.env.AUTH_SERVICE_HOST
+		? process.env.AUTH_SERVICE_HOST
+		: "http://localhost:3001") + "/auth/validate";
 
 export async function authenticate(
 	req: Request,

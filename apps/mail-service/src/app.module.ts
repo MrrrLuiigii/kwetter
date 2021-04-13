@@ -19,7 +19,9 @@ import * as Joi from "joi";
 					.valid("development", "production")
 					.default("development"),
 				PORT_MAIL: Joi.number().required(),
-				SMTP_CONNECTION: Joi.string().required()
+				SMTP_CONNECTION: Joi.string().required(),
+				REDIS_HOST: Joi.string().required(),
+				REDIS_PASSWORD: Joi.string().required()
 			})
 		}),
 		MailerModule.forRootAsync({

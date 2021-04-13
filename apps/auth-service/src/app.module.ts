@@ -24,6 +24,8 @@ const configservice = new ConfigService();
 					.default("development"),
 				PORT_AUTH: Joi.number().default(3001),
 				JWT_SECRET: Joi.string().required(),
+				REDIS_HOST: Joi.string().required(),
+				REDIS_PASSWORD: Joi.string().required(),
 				TYPEORM_CONNECTION: Joi.string()
 					.valid(
 						"mysql",

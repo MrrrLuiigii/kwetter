@@ -9,6 +9,7 @@ RUN npm install
 ADD . /Kwetter/apps/profile-service
 
 ENV REDIS_HOST "redis://172.17.0.1:6379"
+ENV AUTH_SERVICE_HOST "http://172.17.0.1:3001"
 
 RUN nx build profile-service
 CMD ["nx", "serve", "profile-service"]

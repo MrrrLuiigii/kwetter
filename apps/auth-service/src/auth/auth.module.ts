@@ -11,6 +11,13 @@ import { AuthService } from "./auth.service";
 //entities
 import Authentication from "./auth.entity";
 
+const REDIS_HOST = process.env.REDIS_HOST
+	? process.env.REDIS_HOST
+	: "redis://localhost:6379";
+const REDIS_PASSWORD = process.env.REDIS_PASSWORD
+	? process.env.REDIS_PASSWORD
+	: "";
+
 @Module({
 	imports: [
 		TypeOrmModule.forFeature([Authentication]),
@@ -19,8 +26,8 @@ import Authentication from "./auth.entity";
 				name: "AUTH_SERVICE",
 				transport: Transport.REDIS,
 				options: {
-					url: "redis://localhost:6379",
-					auth_pass: "redispassword"
+					url: REDIS_HOST,
+					auth_pass: REDIS_PASSWORD
 				}
 			}
 		])
