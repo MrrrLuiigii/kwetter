@@ -27,6 +27,6 @@ async function bootstrap() {
 	app.enableCors();
 	await app.startAllMicroservicesAsync();
 	await app.listen(port);
-	console.log(`App is listening on: ${await app.getUrl()}`);
+	console.log(`Mail-service is listening on: ${await app.getUrl()}`);
 }
 bootstrap();

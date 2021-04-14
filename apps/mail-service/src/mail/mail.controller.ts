@@ -18,8 +18,8 @@ export class MailController {
 		@Payload() message: UserRegisteredEvent,
 		@Ctx() context: RedisContext
 	) {
-		console.log(message);
-		console.log(context);
+		console.log("message: ", message);
+		console.log("context: ", context);
 		const { username, email } = message;
 		this.mailService.send(
 			email,

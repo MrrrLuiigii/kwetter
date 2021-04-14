@@ -22,10 +22,10 @@ export class MailService {
 				context
 			})
 			.then(() => {
-				console.log("mail sent");
+				console.log(`Mail sent to: ${to}`);
 			})
 			.catch((error) => {
-				console.log("mail not sent", error);
+				console.log("Mail not sent...", error);
 			});
 	}
 }

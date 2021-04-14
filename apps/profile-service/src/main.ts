@@ -29,6 +29,6 @@ async function bootstrap() {
 	await app.startAllMicroservicesAsync();
 	app.use(authenticate);
 	await app.listen(port);
-	console.log(`App is listening on: ${await app.getUrl()}`);
+	console.log(`Profile-service is listening on: ${await app.getUrl()}`);
 }
 bootstrap();
