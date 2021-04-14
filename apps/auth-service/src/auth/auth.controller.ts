@@ -84,6 +84,9 @@ export class AuthController {
 
 	@Get("validate")
 	async validate(@Headers() { authorization }) {
+		if (!authorization)
+			throw new BadRequestException("No authorization headers present...");
+
 		const { status, decoded } = this.authService.validateJWT(authorization);
 
 		switch (status) {
