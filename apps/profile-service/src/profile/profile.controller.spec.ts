@@ -1,4 +1,9 @@
 import {
+	CreateProfileRequest,
+	DecodedToken,
+	NotFoundException
+} from "@kwetter/models";
+import {
 	ClientProxy,
 	ClientProxyFactory,
 	ClientsModule,
@@ -19,7 +24,15 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 	: "";
 
 describe("ProfileController", () => {
-	let mockProfileService = {};
+	const decoded = new DecodedToken();
+	const mockCreateProfile = new CreateProfileRequest();
+	const mockProfile = new Profile();
+
+	let mockProfileService = {
+		createProfile: async () => mockProfile,
+		getProfile: async (id: string) =>
+			id === "existingId" ? mockProfile : undefined
+	};
 
 	let profileController: ProfileController;
 	let profileService: ProfileService;
@@ -49,12 +62,25 @@ describe("ProfileController", () => {
 		profileController = moduleRef.get<ProfileController>(ProfileController);
 	});
 
-	describe("TEST", () => {
-		it("", async () => {
-			// expect(await profileController.create(mockProject as CreateProject)).toBe(
-			// 	mockProject
-			// );
-			expect(true).toBe(true);
+	describe("[POST] createProfile", () => {
+		it("returns project", async () => {
+			expect(
+				await profileController.createProfile(decoded, mockCreateProfile)
+			).toBe(mockProfile);
+		});
+	});
+
+	describe("[GET] getProfile", () => {
+		it("returns project when existing id is passed", async () => {
+			expect(await profileController.getProfile(decoded, "existingId")).toBe(
+				mockProfile
+			);
+		});
+
+		it("returns notFoundException when non-existing id is passed", async () => {
+			await expect(
+				profileController.getProfile(decoded, "nonExistingId")
+			).rejects.toEqual(new NotFoundException());
 		});
 	});
 });
