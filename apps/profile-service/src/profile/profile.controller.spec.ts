@@ -3,15 +3,8 @@ import {
 	DecodedToken,
 	NotFoundException
 } from "@kwetter/models";
-import {
-	ClientProxy,
-	ClientProxyFactory,
-	ClientsModule,
-	Transport
-} from "@nestjs/microservices";
+import { ClientsModule, Transport } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
-import { getRepositoryToken, TypeOrmModule } from "@nestjs/typeorm";
-import { Repository } from "typeorm";
 import { ProfileController } from "./profile.controller";
 import Profile from "./profile.entity";
 import { ProfileService } from "./profile.service";

@@ -10,7 +10,7 @@ import * as jwt from "jsonwebtoken";
 import Authentication from "./auth.entity";
 
 //exceptions
-import { UnauthorizedException } from "@kwetter/models";
+import { BadRequestException, UnauthorizedException } from "@kwetter/models";
 
 //enums
 import { AccountStatus, Role, TokenStatus } from "@kwetter/models";
@@ -58,6 +58,17 @@ export class AuthService {
 			throw new UnauthorizedException("Invalid credentials...");
 
 		return this.createJWT(auth);
+	}
+
+	public async getAuth(username: string, email: string): Promise<void> {
+		const auth = await this.authRepository.findOne({
+			where: [{ username }, { email }]
+		});
+
+		if (auth && auth.username === username)
+			throw new BadRequestException("Username is taken...");
+		if (auth && auth.email === email)
+			throw new BadRequestException("Email is taken...");
 	}
 
 	public async verify(token: string): Promise<AuthVM> {

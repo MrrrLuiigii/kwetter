@@ -17,15 +17,7 @@ import { AuthService } from "./auth.service";
 import { RegisterRequest, LoginRequest, TokenStatus } from "@kwetter/models";
 
 //exceptions
-import {
-	BadRequestException,
-	UnauthorizedException,
-	InternalServerException
-} from "@kwetter/models";
-
-const typeOrmErr = {
-	DUPE_ENTRY: "ER_DUP_ENTRY"
-};
+import { BadRequestException, UnauthorizedException } from "@kwetter/models";
 
 @Controller("auth")
 export class AuthController {
@@ -41,6 +33,10 @@ export class AuthController {
 		if (password !== passwordVerify)
 			throw new BadRequestException("Passwords don't match...");
 
+		await this.authService.getAuth(username, email).catch((err) => {
+			throw err;
+		});
+
 		return await this.authService
 			.register(username, email, password)
 			.then((auth) => {
@@ -53,28 +49,13 @@ export class AuthController {
 					})
 					.toPromise();
 				return authVM;
-			})
-			.catch((err) => {
-				console.log(err);
-				//TODO: email is taken
-				let message = err.message;
-				if (err.code === typeOrmErr.DUPE_ENTRY)
-					message = "This username is taken...";
-				throw new BadRequestException(message);
 			});
 	}
 
 	@Post("login")
 	@HttpCode(200)
 	async login(@Body() { username, password }: LoginRequest) {
-		return await this.authService
-			.login(username, password)
-			.then((authVM) => {
-				return authVM;
-			})
-			.catch((err) => {
-				throw err;
-			});
+		return await this.authService.login(username, password);
 	}
 
 	@Patch("verify")
