@@ -12,7 +12,6 @@ export class MailService {
 		template: string,
 		context: UserRegisteredEvent
 	): void {
-		console.log(template);
 		this.mailerService
 			.sendMail({
 				to,

@@ -15,11 +15,9 @@ export class MailController {
 
 	@MessagePattern("USER_REGISTERED")
 	async userRegistered(
-		@Payload() message: UserRegisteredEvent,
-		@Ctx() context: RedisContext
+		@Payload() message: UserRegisteredEvent
+		// @Ctx() context: RedisContext
 	) {
-		console.log("message: ", message);
-		console.log("context: ", context);
 		const { username, email } = message;
 		this.mailService.send(
 			email,

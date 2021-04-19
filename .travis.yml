@@ -16,7 +16,6 @@ only:
 
 script:
   - nx test auth-service
-  - nx test mail-service
   - nx test profile-service
 
 after_success:
