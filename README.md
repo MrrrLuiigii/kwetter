@@ -1,5 +1,3 @@
-
-
 # Kwetter
 
 This project was generated using [Nx](https://nx.dev).
@@ -34,6 +32,7 @@ There are also many [community plugins](https://nx.dev/nx-community) you could a
 ## Generate an application
 
 Run `nx g @nrwl/react:app my-app` to generate an application.
+Run `nx g @nrwl/nest:application my-app` to generate a nest application.
 
 > You can use any of the plugins above to generate applications as well.
 
@@ -78,8 +77,6 @@ Run `nx dep-graph` to see a diagram of the dependencies of your projects.
 ## Further help
 
 Visit the [Nx Documentation](https://nx.dev) to learn more.
-
-
 
 ## ☁ Nx Cloud
 

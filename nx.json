@@ -19,6 +19,7 @@
 		"models": { "tags": [] },
 		"auth-service": { "tags": [] },
 		"mail-service": { "tags": [] },
-		"profile-service": { "tags": [] }
+		"profile-service": { "tags": [] },
+		"trend-service": { "tags": [] }
 	}
 }

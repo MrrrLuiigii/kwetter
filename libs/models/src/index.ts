@@ -13,3 +13,6 @@ export * from "./lib/auth/auth.viewmodel";
 export * from "./lib/profile/profile.dto";
 export * from "./lib/profile/profile.enum";
 export * from "./lib/profile/profile.viewmodel";
+
+export * from "./lib/trend/trend.dto";
+export * from "./lib/trend/trend.viewmodel";

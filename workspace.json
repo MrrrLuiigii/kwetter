@@ -206,6 +206,65 @@
           }
         }
       }
+    },
+    "trend-service": {
+      "root": "apps/trend-service",
+      "sourceRoot": "apps/trend-service/src",
+      "projectType": "application",
+      "prefix": "trend-service",
+      "targets": {
+        "build": {
+          "executor": "@nrwl/node:build",
+          "outputs": [
+            "{options.outputPath}"
+          ],
+          "options": {
+            "outputPath": "dist/apps/trend-service",
+            "main": "apps/trend-service/src/main.ts",
+            "tsConfig": "apps/trend-service/tsconfig.app.json",
+            "assets": [
+              "apps/trend-service/src/assets"
+            ]
+          },
+          "configurations": {
+            "production": {
+              "optimization": true,
+              "extractLicenses": true,
+              "inspect": false,
+              "fileReplacements": [
+                {
+                  "replace": "apps/trend-service/src/environments/environment.ts",
+                  "with": "apps/trend-service/src/environments/environment.prod.ts"
+                }
+              ]
+            }
+          }
+        },
+        "serve": {
+          "executor": "@nrwl/node:execute",
+          "options": {
+            "buildTarget": "trend-service:build"
+          }
+        },
+        "lint": {
+          "executor": "@nrwl/linter:eslint",
+          "options": {
+            "lintFilePatterns": [
+              "apps/trend-service/**/*.ts"
+            ]
+          }
+        },
+        "test": {
+          "executor": "@nrwl/jest:jest",
+          "outputs": [
+            "coverage/apps/trend-service"
+          ],
+          "options": {
+            "jestConfig": "apps/trend-service/jest.config.js",
+            "passWithNoTests": true
+          }
+        }
+      }
     }
   }
 }
