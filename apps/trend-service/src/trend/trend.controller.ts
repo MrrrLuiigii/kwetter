@@ -3,11 +3,7 @@ import { ClientProxy } from "@nestjs/microservices";
 
 import { TrendService } from "./trend.service";
 
-import {
-	AddTrendsRequest,
-	BadRequestException,
-	GetTrendsRequest
-} from "@kwetter/models";
+import { AddTrendsRequest, BadRequestException } from "@kwetter/models";
 import { isArray, isString } from "class-validator";
 
 @Controller("trend")
@@ -19,6 +15,7 @@ export class TrendController {
 
 	@Post()
 	async addTrends(@Body() addTrendsRequest: AddTrendsRequest) {
+		console.log(addTrendsRequest);
 		return await this.trendService.addTrends(addTrendsRequest.trends);
 	}
 

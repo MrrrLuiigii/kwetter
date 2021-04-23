@@ -10,7 +10,7 @@ export class TrendService {
 		private trendRepository: Repository<Trend>
 	) {}
 
-	async addTrends(trends: string[]): Promise<string[]> {
+	async addTrends(trends: string[]): Promise<Trend[]> {
 		const trendObjects: Trend[] = [];
 		trends.forEach((trend: string) => {
 			trendObjects.push(new Trend(trend));
@@ -24,7 +24,7 @@ export class TrendService {
 			.orIgnore()
 			.execute();
 
-		return trends;
+		return await this.getTrendsByName(trends);
 	}
 
 	async getTrendsByIds(ids: string[]): Promise<string[]> {
@@ -38,5 +38,14 @@ export class TrendService {
 		return (await this.trendRepository.find({ where: trendObjects })).map(
 			(t) => t["name"]
 		);
+	}
+
+	private async getTrendsByName(names: string[]): Promise<Trend[]> {
+		const trendObjects: Trend[] = [];
+		names.forEach((name: string) => {
+			trendObjects.push(new Trend(name));
+		});
+		console.log(trendObjects);
+		return await this.trendRepository.find({ where: trendObjects });
 	}
 }

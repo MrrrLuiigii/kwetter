@@ -5,7 +5,7 @@ import { ConfigService } from "@nestjs/config";
 import { AppModule } from "./app.module";
 import { ValidationPipe } from "@nestjs/common";
 import { MicroserviceOptions, Transport } from "@nestjs/microservices";
-import { authenticate } from "@kwetter/models";
+import { authenticate } from "@kwetter/auth";
 
 const REDIS_HOST = process.env.REDIS_HOST
 	? process.env.REDIS_HOST

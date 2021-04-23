@@ -9,20 +9,19 @@ import {
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
-//services
+//profile
+import Profile from "./profile.entity";
 import { ProfileService } from "./profile.service";
 
-//dto
-import { DecodedToken, CreateProfileRequest } from "@kwetter/models";
-
-//exceptions
+//libs
+import { AxiosTrendService } from "@kwetter/services";
 import {
-	BadRequestException,
-	UnauthorizedException,
-	InternalServerException,
-	NotFoundException
+	DecodedToken,
+	CreateProfileRequest,
+	ProfileVM,
+	NotFoundException,
+	Profile as ProfileType
 } from "@kwetter/models";
-import Profile from "./profile.entity";
 
 @Controller("profile")
 export class ProfileController {
@@ -42,16 +41,21 @@ export class ProfileController {
 
 	@Get(":id?")
 	async getProfile(
+		@Headers("Authorization") token: string,
 		@Headers("decoded") decoded: DecodedToken,
 		@Param("id") id?: string
 	) {
-		let profile = undefined;
+		let profile: Profile = undefined;
 
 		if (!id || id === "")
 			profile = await this.profileService.getProfile(decoded.id, true);
 		else profile = await this.profileService.getProfile(id);
 
 		if (!profile) throw new NotFoundException();
-		return profile;
+
+		profile.trends = await AxiosTrendService.getTrends(profile.trends, token);
+
+		const profileVM: ProfileVM = new ProfileVM(profile as ProfileType);
+		return profileVM;
 	}
 }

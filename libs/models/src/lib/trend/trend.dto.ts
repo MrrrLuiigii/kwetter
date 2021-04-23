@@ -1,10 +1,7 @@
-//TODO: validate
-
-import { IsAlphanumeric, IsArray, ValidateNested } from "class-validator";
+import { IsArray } from "class-validator";
 
 export class AddTrendsRequest {
 	@IsArray()
-	@IsAlphanumeric("", { each: true })
 	trends: string[];
 }
 
