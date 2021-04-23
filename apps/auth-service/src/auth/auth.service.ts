@@ -6,17 +6,18 @@ import { Repository } from "typeorm";
 import * as bcrypt from "bcrypt";
 import * as jwt from "jsonwebtoken";
 
-//entities
+//authentication
 import Authentication from "./auth.entity";
 
-//exceptions
-import { BadRequestException, UnauthorizedException } from "@kwetter/models";
-
-//enums
-import { AccountStatus, Role, TokenStatus } from "@kwetter/models";
-
-//viewmodels
-import { AuthVM } from "@kwetter/models";
+//libs
+import {
+	BadRequestException,
+	UnauthorizedException,
+	AccountStatus,
+	Role,
+	TokenStatus,
+	AuthVM
+} from "@kwetter/models";
 
 @Injectable()
 export class AuthService {
@@ -122,6 +123,7 @@ export class AuthService {
 
 		try {
 			const decoded = jwt.verify(token, this.jwtSecret);
+			decoded["token"] = token;
 			return { status: TokenStatus.Valid, decoded };
 		} catch (err) {
 			return { status: TokenStatus.Invalid, decoded: {} };

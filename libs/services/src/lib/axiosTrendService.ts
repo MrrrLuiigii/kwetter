@@ -1,13 +1,14 @@
+import { Injectable } from "@nestjs/common";
 import { AxiosResponse } from "axios";
 import AxiosRequestHandler from "./axiosRequestHandler";
 
+@Injectable()
 export class AxiosTrendService {
-	private static serviceUrl: string = "/trend";
+	private serviceUrl: string = "/trend";
 
-	public static getTrends(ids: string[], token: string) {
+	public getTrends(ids: string[], token: string) {
 		const url: string = `${this.serviceUrl}/${ids.join(",")}`;
 
-		console.log(url);
 		return AxiosRequestHandler.get(url, token)
 			.then((res: AxiosResponse) => {
 				return res.data;

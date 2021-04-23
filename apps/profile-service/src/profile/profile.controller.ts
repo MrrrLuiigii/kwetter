@@ -5,7 +5,8 @@ import {
 	Headers,
 	Inject,
 	Param,
-	Post
+	Post,
+	Req
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
@@ -20,13 +21,14 @@ import {
 	CreateProfileRequest,
 	ProfileVM,
 	NotFoundException,
-	Profile as ProfileType
+	ProfileType
 } from "@kwetter/models";
 
 @Controller("profile")
 export class ProfileController {
 	constructor(
 		private readonly profileService: ProfileService,
+		private readonly axiosTrendService: AxiosTrendService,
 		@Inject("PROFILE_SERVICE") private readonly client: ClientProxy
 	) {}
 
@@ -41,7 +43,6 @@ export class ProfileController {
 
 	@Get(":id?")
 	async getProfile(
-		@Headers("Authorization") token: string,
 		@Headers("decoded") decoded: DecodedToken,
 		@Param("id") id?: string
 	) {
@@ -53,7 +54,10 @@ export class ProfileController {
 
 		if (!profile) throw new NotFoundException();
 
-		profile.trends = await AxiosTrendService.getTrends(profile.trends, token);
+		profile.trends = await this.axiosTrendService.getTrends(
+			profile.trends,
+			decoded.token
+		);
 
 		const profileVM: ProfileVM = new ProfileVM(profile as ProfileType);
 		return profileVM;

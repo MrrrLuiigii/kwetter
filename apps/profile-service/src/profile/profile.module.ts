@@ -1,16 +1,14 @@
 import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
-
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-//controllers
+//profile
 import { ProfileController } from "./profile.controller";
-
-//services
 import { ProfileService } from "./profile.service";
-
-//entities
 import Profile from "./profile.entity";
+
+//libs
+import { AxiosTrendService } from "@kwetter/services";
 
 const REDIS_HOST = process.env.REDIS_HOST
 	? process.env.REDIS_HOST
@@ -34,6 +32,6 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 		])
 	],
 	controllers: [ProfileController],
-	providers: [ProfileService]
+	providers: [ProfileService, AxiosTrendService]
 })
 export class ProfileModule {}

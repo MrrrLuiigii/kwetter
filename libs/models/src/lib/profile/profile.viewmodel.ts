@@ -1,4 +1,4 @@
-import Profile from "./profile.entity";
+import { ProfileType } from "./profile.type";
 
 export class ProfileVM {
 	id: string;
@@ -12,7 +12,7 @@ export class ProfileVM {
 	kweets: string[]; //TODO
 	trends: string[];
 
-	constructor(profile: Profile) {
+	constructor(profile: ProfileType) {
 		this.id = profile.id;
 		this.name = profile.name;
 		this.web = profile.web;

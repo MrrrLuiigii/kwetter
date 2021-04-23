@@ -2,6 +2,7 @@ import {
 	IsAlphanumeric,
 	IsEmail,
 	IsEnum,
+	IsJWT,
 	IsString,
 	Length
 } from "class-validator";
@@ -21,6 +22,9 @@ export class DecodedToken {
 
 	@IsEnum(Role)
 	role: Role;
+
+	@IsJWT()
+	token: string;
 }
 
 export class RegisterRequest {

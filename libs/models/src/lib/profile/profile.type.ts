@@ -1,4 +1,4 @@
-export default class Profile {
+export class ProfileType {
 	id: string;
 	authId: string;
 	name: string;

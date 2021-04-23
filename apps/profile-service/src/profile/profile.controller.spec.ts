@@ -1,8 +1,11 @@
 import {
 	CreateProfileRequest,
 	DecodedToken,
-	NotFoundException
+	NotFoundException,
+	ProfileType,
+	ProfileVM
 } from "@kwetter/models";
+import { AxiosTrendService } from "@kwetter/services";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ProfileController } from "./profile.controller";
@@ -20,6 +23,7 @@ describe("ProfileController", () => {
 	const decoded = new DecodedToken();
 	const mockCreateProfile = new CreateProfileRequest();
 	const mockProfile = new Profile();
+	const mockProfileVM = new ProfileVM(mockProfile as ProfileType);
 
 	let mockProfileService = {
 		createProfile: async () => mockProfile,
@@ -27,13 +31,18 @@ describe("ProfileController", () => {
 			id === "existingId" ? mockProfile : undefined
 	};
 
+	let mockAxiosTrendService = {
+		getTrends: () => undefined
+	};
+
 	let profileController: ProfileController;
 	let profileService: ProfileService;
+	let axiosTrendService: AxiosTrendService;
 
 	beforeEach(async () => {
 		const moduleRef: TestingModule = await Test.createTestingModule({
 			controllers: [ProfileController],
-			providers: [ProfileService],
+			providers: [ProfileService, AxiosTrendService],
 			imports: [
 				ClientsModule.register([
 					{
@@ -49,8 +58,11 @@ describe("ProfileController", () => {
 		})
 			.overrideProvider(ProfileService)
 			.useValue(mockProfileService)
+			.overrideProvider(AxiosTrendService)
+			.useValue(mockAxiosTrendService)
 			.compile();
 
+		axiosTrendService = moduleRef.get<AxiosTrendService>(AxiosTrendService);
 		profileService = moduleRef.get<ProfileService>(ProfileService);
 		profileController = moduleRef.get<ProfileController>(ProfileController);
 	});
@@ -65,8 +77,8 @@ describe("ProfileController", () => {
 
 	describe("[GET] getProfile", () => {
 		it("returns project when existing id is passed", async () => {
-			expect(await profileController.getProfile(decoded, "existingId")).toBe(
-				mockProfile
+			expect(await profileController.getProfile(decoded, "existingId")).toEqual(
+				mockProfileVM
 			);
 		});
 
