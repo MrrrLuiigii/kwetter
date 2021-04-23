@@ -2,10 +2,7 @@ import { Request, Response, NextFunction } from "express";
 import axios from "axios";
 
 //exceptions
-import { BadRequestException } from "../exceptions/badRequest.exception";
-import { UnauthorizedException } from "../exceptions/unauthorized.exception";
-
-//TODO: move to gateway
+import { BadRequestException, UnauthorizedException } from "@kwetter/models";
 
 const AUTH_URL =
 	(process.env.AUTH_SERVICE_HOST

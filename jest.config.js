@@ -4,6 +4,8 @@ module.exports = {
 		"<rootDir>/libs/models",
 		"<rootDir>/apps/mail-service",
 		"<rootDir>/apps/profile-service",
-		"<rootDir>/apps/trend-service"
+		"<rootDir>/apps/trend-service",
+		"<rootDir>/libs/auth",
+		"<rootDir>/libs/services"
 	]
 };
