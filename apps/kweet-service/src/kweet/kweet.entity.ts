@@ -1,0 +1,25 @@
+import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+
+@Entity("Kweet")
+export default class Trend {
+	@PrimaryGeneratedColumn("uuid")
+	id?: string;
+
+	@Column()
+	body!: string;
+
+	@Column()
+	profileId!: string;
+
+	@Column()
+	createdAt!: Date;
+
+	@Column("simple-array", { nullable: true })
+	mentions?: string[];
+
+	@Column("simple-array", { nullable: true })
+	trends?: string[];
+
+	@Column("simple-array", { nullable: true })
+	likes?: string[];
+}

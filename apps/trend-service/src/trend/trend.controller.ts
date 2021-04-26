@@ -15,7 +15,6 @@ export class TrendController {
 
 	@Post()
 	async addTrends(@Body() addTrendsRequest: AddTrendsRequest) {
-		console.log(addTrendsRequest);
 		return await this.trendService.addTrends(addTrendsRequest.trends);
 	}
 

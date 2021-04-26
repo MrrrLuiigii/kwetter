@@ -14,3 +14,5 @@ export * from "./lib/profile/profile.viewmodel";
 
 export * from "./lib/trend/trend.dto";
 export * from "./lib/trend/trend.viewmodel";
+
+export * from "./lib/kweet/kweet.dto";

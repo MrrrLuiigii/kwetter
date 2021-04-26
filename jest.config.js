@@ -6,6 +6,7 @@ module.exports = {
 		"<rootDir>/apps/profile-service",
 		"<rootDir>/apps/trend-service",
 		"<rootDir>/libs/auth",
-		"<rootDir>/libs/services"
+		"<rootDir>/libs/services",
+		"<rootDir>/apps/kweet-service"
 	]
 };
