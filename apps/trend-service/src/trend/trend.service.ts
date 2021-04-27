@@ -27,7 +27,7 @@ export class TrendService {
 		return await this.getTrendsByName(trends);
 	}
 
-	async getTrendsByIds(ids: string[]): Promise<string[]> {
+	async getTrendsByIds(ids: string[]): Promise<Trend[]> {
 		const trendObjects: Trend[] = [];
 		ids.forEach((id: string) => {
 			const trend = new Trend();
@@ -35,9 +35,7 @@ export class TrendService {
 			trendObjects.push(trend);
 		});
 
-		return (await this.trendRepository.find({ where: trendObjects })).map(
-			(t) => t["name"]
-		);
+		return await this.trendRepository.find({ where: trendObjects });
 	}
 
 	private async getTrendsByName(names: string[]): Promise<Trend[]> {
@@ -45,7 +43,6 @@ export class TrendService {
 		names.forEach((name: string) => {
 			trendObjects.push(new Trend(name));
 		});
-		console.log(trendObjects);
 		return await this.trendRepository.find({ where: trendObjects });
 	}
 }

@@ -15,7 +15,7 @@ import Profile from "./profile.entity";
 import { ProfileService } from "./profile.service";
 
 //libs
-import { AxiosTrendService } from "@kwetter/services";
+import { AxiosKweetService, AxiosTrendService } from "@kwetter/services";
 import {
 	DecodedToken,
 	CreateProfileRequest,
@@ -29,6 +29,7 @@ export class ProfileController {
 	constructor(
 		private readonly profileService: ProfileService,
 		private readonly axiosTrendService: AxiosTrendService,
+		private readonly axiosKweetService: AxiosKweetService,
 		@Inject("PROFILE_SERVICE") private readonly client: ClientProxy
 	) {}
 
@@ -38,7 +39,9 @@ export class ProfileController {
 		@Body() createProfileRequest: CreateProfileRequest
 	) {
 		const profile: Profile = { ...createProfileRequest, authId: decoded.id };
-		return await this.profileService.createProfile(profile);
+		return new ProfileVM(
+			(await this.profileService.createProfile(profile)) as ProfileType
+		);
 	}
 
 	@Get(":id?")
@@ -54,12 +57,19 @@ export class ProfileController {
 
 		if (!profile) throw new NotFoundException();
 
-		profile.trends = await this.axiosTrendService.getTrends(
+		const trends = await this.axiosTrendService.getTrends(
 			profile.trends,
 			decoded.token
 		);
 
-		const profileVM: ProfileVM = new ProfileVM(profile as ProfileType);
-		return profileVM;
+		const kweets = await this.axiosKweetService.getByProfileId(
+			profile.id,
+			decoded.token
+		);
+
+		console.log(trends);
+		console.log(kweets[0].trends);
+
+		return new ProfileVM(profile as ProfileType, trends, kweets);
 	}
 }

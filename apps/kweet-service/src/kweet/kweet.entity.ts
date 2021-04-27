@@ -1,7 +1,7 @@
 import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
 
 @Entity("Kweet")
-export default class Trend {
+export default class Kweet {
 	@PrimaryGeneratedColumn("uuid")
 	id?: string;
 

@@ -16,3 +16,5 @@ export * from "./lib/trend/trend.dto";
 export * from "./lib/trend/trend.viewmodel";
 
 export * from "./lib/kweet/kweet.dto";
+export * from "./lib/kweet/kweet.type";
+export * from "./lib/kweet/kweet.viewmodel";

@@ -8,7 +8,7 @@ import { ProfileService } from "./profile.service";
 import Profile from "./profile.entity";
 
 //libs
-import { AxiosTrendService } from "@kwetter/services";
+import { AxiosKweetService, AxiosTrendService } from "@kwetter/services";
 
 const REDIS_HOST = process.env.REDIS_HOST
 	? process.env.REDIS_HOST
@@ -32,6 +32,6 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 		])
 	],
 	controllers: [ProfileController],
-	providers: [ProfileService, AxiosTrendService]
+	providers: [ProfileService, AxiosTrendService, AxiosKweetService]
 })
 export class ProfileModule {}
