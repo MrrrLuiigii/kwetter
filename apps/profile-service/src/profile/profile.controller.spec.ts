@@ -5,7 +5,7 @@ import {
 	ProfileType,
 	ProfileVM
 } from "@kwetter/models";
-import { AxiosTrendService } from "@kwetter/services";
+import { AxiosKweetService, AxiosTrendService } from "@kwetter/services";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { Test, TestingModule } from "@nestjs/testing";
 import { ProfileController } from "./profile.controller";
@@ -32,17 +32,22 @@ describe("ProfileController", () => {
 	};
 
 	let mockAxiosTrendService = {
-		getTrends: () => undefined
+		getTrends: () => undefined,
+		getTrendIds: () => undefined
+	};
+	let mockAxiosKweetService = {
+		getByProfileId: () => undefined
 	};
 
 	let profileController: ProfileController;
 	let profileService: ProfileService;
 	let axiosTrendService: AxiosTrendService;
+	let axiosKweetService: AxiosKweetService;
 
 	beforeEach(async () => {
 		const moduleRef: TestingModule = await Test.createTestingModule({
 			controllers: [ProfileController],
-			providers: [ProfileService, AxiosTrendService],
+			providers: [ProfileService, AxiosTrendService, AxiosKweetService],
 			imports: [
 				ClientsModule.register([
 					{
@@ -60,9 +65,12 @@ describe("ProfileController", () => {
 			.useValue(mockProfileService)
 			.overrideProvider(AxiosTrendService)
 			.useValue(mockAxiosTrendService)
+			.overrideProvider(AxiosKweetService)
+			.useValue(mockAxiosKweetService)
 			.compile();
 
 		axiosTrendService = moduleRef.get<AxiosTrendService>(AxiosTrendService);
+		axiosKweetService = moduleRef.get<AxiosKweetService>(AxiosKweetService);
 		profileService = moduleRef.get<ProfileService>(ProfileService);
 		profileController = moduleRef.get<ProfileController>(ProfileController);
 	});
@@ -71,7 +79,7 @@ describe("ProfileController", () => {
 		it("returns project", async () => {
 			expect(
 				await profileController.createProfile(decoded, mockCreateProfile)
-			).toBe(mockProfile);
+			).toEqual(mockProfileVM);
 		});
 	});
 

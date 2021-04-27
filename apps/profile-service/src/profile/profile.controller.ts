@@ -67,9 +67,6 @@ export class ProfileController {
 			decoded.token
 		);
 
-		console.log(trends);
-		console.log(kweets[0].trends);
-
 		return new ProfileVM(profile as ProfileType, trends, kweets);
 	}
 }
