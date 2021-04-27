@@ -23,9 +23,13 @@ after_success:
   - docker image build -t $DOCKER_USERNAME/kwetter-auth-service:latest -f kwetter-auth-service.Dockerfile .
   - docker image build -t $DOCKER_USERNAME/kwetter-mail-service:latest -f kwetter-mail-service.Dockerfile .
   - docker image build -t $DOCKER_USERNAME/kwetter-profile-service:latest -f kwetter-profile-service.Dockerfile .
+  - docker image build -t $DOCKER_USERNAME/kwetter-trend-service:latest -f kwetter-trend-service.Dockerfile .
+  - docker image build -t $DOCKER_USERNAME/kwetter-kweet-service:latest -f kwetter-kweet-service.Dockerfile .
   - docker image push $DOCKER_USERNAME/kwetter-auth-service:latest
   - docker image push $DOCKER_USERNAME/kwetter-mail-service:latest
   - docker image push $DOCKER_USERNAME/kwetter-profile-service:latest
+  - docker image push $DOCKER_USERNAME/kwetter-trend-service:latest
+  - docker image push $DOCKER_USERNAME/kwetter-kweet-service:latest
   - wget https://raw.githubusercontent.com/DiscordHooks/travis-ci-discord-webhook/master/send.sh
   - chmod +x send.sh
   - ./send.sh success $WEBHOOK_URL
