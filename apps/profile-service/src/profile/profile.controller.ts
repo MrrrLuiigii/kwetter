@@ -70,9 +70,6 @@ export class ProfileController {
 			decoded.token
 		);
 
-		console.log(profile.trends);
-		console.log(trends);
-
 		const kweets = await this.axiosKweetService.getByProfileId(
 			profile.id,
 			decoded.token
