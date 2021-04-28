@@ -32,8 +32,8 @@ describe("ProfileController", () => {
 	};
 
 	let mockAxiosTrendService = {
-		getTrends: () => undefined,
-		getTrendIds: () => undefined
+		getTrends: () => [],
+		getTrendIds: () => []
 	};
 	let mockAxiosKweetService = {
 		getByProfileId: () => undefined
