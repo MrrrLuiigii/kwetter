@@ -4,7 +4,7 @@ import { ClientProxy } from "@nestjs/microservices";
 import { TrendService } from "./trend.service";
 
 import { AddTrendsRequest, BadRequestException } from "@kwetter/models";
-import { isArray, isString } from "class-validator";
+import { isArray, isUUID } from "class-validator";
 
 @Controller("trend")
 export class TrendController {
@@ -25,10 +25,10 @@ export class TrendController {
 			idsArray = ids.split(",");
 			if (!isArray(idsArray)) throw idsArray;
 			idsArray.forEach((id) => {
-				if (!isString(id)) throw idsArray;
+				if (!isUUID(id)) throw idsArray;
 			});
 		} catch (err) {
-			throw new BadRequestException("Ids must be an array of string values...");
+			throw new BadRequestException("Ids must be an array of uuid values...");
 		}
 
 		return await this.trendService.getTrendsByIds(idsArray);

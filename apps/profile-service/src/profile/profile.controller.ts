@@ -23,6 +23,7 @@ import {
 	NotFoundException,
 	ProfileType
 } from "@kwetter/models";
+import { TrendType } from "libs/models/src/lib/trend/trend.type";
 
 @Controller("profile")
 export class ProfileController {
@@ -39,8 +40,15 @@ export class ProfileController {
 		@Body() createProfileRequest: CreateProfileRequest
 	) {
 		const profile: Profile = { ...createProfileRequest, authId: decoded.id };
+		const trends = await this.axiosTrendService.getTrendIds(
+			profile.trends,
+			decoded.token
+		);
+		profile.trends = trends.map((trend: TrendType) => trend.id);
 		return new ProfileVM(
-			(await this.profileService.createProfile(profile)) as ProfileType
+			(await this.profileService.createProfile(profile)) as ProfileType,
+			decoded.username,
+			trends
 		);
 	}
 
@@ -62,11 +70,19 @@ export class ProfileController {
 			decoded.token
 		);
 
+		console.log(profile.trends);
+		console.log(trends);
+
 		const kweets = await this.axiosKweetService.getByProfileId(
 			profile.id,
 			decoded.token
 		);
 
-		return new ProfileVM(profile as ProfileType, trends, kweets);
+		return new ProfileVM(
+			profile as ProfileType,
+			decoded.username,
+			trends,
+			kweets
+		);
 	}
 }

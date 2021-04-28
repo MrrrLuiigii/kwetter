@@ -18,6 +18,7 @@ export class ProfileVM {
 
 	constructor(
 		profile: ProfileType,
+		username: string,
 		trends?: TrendType[],
 		kweets?: KweetType[]
 	) {
@@ -43,7 +44,7 @@ export class ProfileVM {
 				kweet.trends.forEach((t) => {
 					trends.push(new TrendVM((t as unknown) as TrendType));
 				});
-				this.kweets.push(new KweetVM(kweet, trends));
+				this.kweets.push(new KweetVM(kweet, username, trends));
 			});
 	}
 }

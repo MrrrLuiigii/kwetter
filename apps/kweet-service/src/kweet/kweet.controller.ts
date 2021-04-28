@@ -22,6 +22,7 @@ import {
 	KweetType
 } from "@kwetter/models";
 import { AxiosTrendService } from "@kwetter/services";
+import { TrendType } from "libs/models/src/lib/trend/trend.type";
 
 @Controller("kweet")
 export class KweetController {
@@ -46,9 +47,10 @@ export class KweetController {
 			postKweetRequest.trends,
 			decoded.token
 		);
-
+		kweet.trends = trends.map((trend: TrendType) => trend.id);
 		return new KweetVM(
 			(await this.kweetService.postKweet(kweet)) as KweetType,
+			decoded.username,
 			trends
 		);
 	}
@@ -62,11 +64,13 @@ export class KweetController {
 
 		const kweetVMs: KweetVM[] = [];
 		for (let i = 0; i < kweets.length; i++) {
-			const trends = await this.axiosTrendService.getTrendIds(
+			const trends = await this.axiosTrendService.getTrends(
 				kweets[i].trends,
 				decoded.token
 			);
-			kweetVMs.push(new KweetVM(kweets[i] as KweetType, trends));
+			kweetVMs.push(
+				new KweetVM(kweets[i] as KweetType, decoded.username, trends)
+			);
 		}
 
 		return kweetVMs;

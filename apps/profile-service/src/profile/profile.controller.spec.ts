@@ -23,7 +23,7 @@ describe("ProfileController", () => {
 	const decoded = new DecodedToken();
 	const mockCreateProfile = new CreateProfileRequest();
 	const mockProfile = new Profile();
-	const mockProfileVM = new ProfileVM(mockProfile as ProfileType);
+	const mockProfileVM = new ProfileVM(mockProfile as ProfileType, "");
 
 	let mockProfileService = {
 		createProfile: async () => mockProfile,
