@@ -21,6 +21,7 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 
 describe("ProfileController", () => {
 	const decoded = new DecodedToken();
+	decoded.username = "";
 	const mockCreateProfile = new CreateProfileRequest();
 	const mockProfile = new Profile();
 	const mockProfileVM = new ProfileVM(mockProfile as ProfileType, "");
@@ -76,7 +77,7 @@ describe("ProfileController", () => {
 	});
 
 	describe("[POST] createProfile", () => {
-		it("returns project", async () => {
+		it("returns profile", async () => {
 			expect(
 				await profileController.createProfile(decoded, mockCreateProfile)
 			).toEqual(mockProfileVM);
@@ -84,7 +85,7 @@ describe("ProfileController", () => {
 	});
 
 	describe("[GET] getProfile", () => {
-		it("returns project when existing id is passed", async () => {
+		it("returns profile when existing id is passed", async () => {
 			expect(await profileController.getProfile(decoded, "existingId")).toEqual(
 				mockProfileVM
 			);
