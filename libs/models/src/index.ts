@@ -1,3 +1,5 @@
+export * from "./lib/common/queryParams";
+
 export * from "./lib/exceptions/badRequest.exception";
 export * from "./lib/exceptions/internalServer.exception";
 export * from "./lib/exceptions/unauthorized.exception";

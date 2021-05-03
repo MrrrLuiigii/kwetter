@@ -1,3 +1,4 @@
+import { QueryParams } from "@kwetter/models";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -14,7 +15,15 @@ export class KweetService {
 		return await this.kweetRepository.save(kweet);
 	}
 
-	public async getByProfileId(id: string) {
-		return await this.kweetRepository.find({ where: { profileId: id } });
+	public async getByProfileId(
+		id: string,
+		pagination: QueryParams = { skip: 0, take: 10 }
+	) {
+		return await this.kweetRepository.find({
+			where: { profileId: id },
+			order: { createdAt: "DESC" },
+			take: pagination.take,
+			skip: pagination.skip
+		});
 	}
 }

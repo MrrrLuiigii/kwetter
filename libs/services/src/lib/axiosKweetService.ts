@@ -8,7 +8,6 @@ export class AxiosKweetService {
 
 	public getByProfileId(id: string, token: string) {
 		const url: string = `${this.serviceUrl}/${id}`;
-
 		return AxiosRequestHandler.get(url, token)
 			.then((res: AxiosResponse) => {
 				return res.data;

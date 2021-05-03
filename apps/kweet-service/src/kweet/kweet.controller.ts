@@ -6,7 +6,9 @@ import {
 	Param,
 	Post,
 	Headers,
-	HttpCode
+	HttpCode,
+	Query,
+	DefaultValuePipe
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
@@ -19,7 +21,8 @@ import {
 	DecodedToken,
 	PostKweetRequest,
 	KweetVM,
-	KweetType
+	KweetType,
+	QueryParams
 } from "@kwetter/models";
 import { AxiosTrendService } from "@kwetter/services";
 import { TrendType } from "libs/models/src/lib/trend/trend.type";
@@ -58,9 +61,13 @@ export class KweetController {
 	@Get("/:id")
 	async getKweets(
 		@Headers("decoded") decoded: DecodedToken,
-		@Param("id") id: string
+		@Param("id") id: string,
+		@Query() query: QueryParams = { skip: 0, take: 10 }
 	) {
-		const kweets = await this.kweetService.getByProfileId(id);
+		const kweets = await this.kweetService.getByProfileId(id, {
+			skip: query.skip,
+			take: query.take
+		});
 
 		const kweetVMs: KweetVM[] = [];
 		for (let i = 0; i < kweets.length; i++) {

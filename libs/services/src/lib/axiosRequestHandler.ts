@@ -1,5 +1,6 @@
 import axios, { AxiosResponse, AxiosError } from "axios";
 import { HttpException } from "@nestjs/common";
+import { QueryParams } from "@kwetter/models";
 
 class AxiosRequestHandler {
 	private static api = axios.create({
@@ -10,13 +11,22 @@ class AxiosRequestHandler {
 	});
 
 	private static setAuthHeaders(token: string) {
-		const authHeaders = token;
-		if (this.api) this.api.defaults.headers["Authorization"] = authHeaders;
-		return authHeaders;
+		if (this.api) this.api.defaults.headers["Authorization"] = token;
 	}
 
-	public static get(url: string, token: string): any {
+	private static setPaginationParams(url: string, pagination: QueryParams) {
+		if (url.indexOf("?") > -1)
+			return `${url}&skip=${pagination.skip}&take=${pagination.take}`;
+		return `${url}?skip=${pagination.skip}&take=${pagination.take}`;
+	}
+
+	public static get(
+		url: string,
+		token: string,
+		pagination: QueryParams = { skip: 0, take: 10 }
+	): any {
 		this.setAuthHeaders(token);
+		url = this.setPaginationParams(url, pagination);
 		return this.api
 			.get(url)
 			.then((res: AxiosResponse) => {

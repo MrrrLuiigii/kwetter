@@ -6,6 +6,7 @@ import { ProfileType } from "./profile.type";
 
 export class ProfileVM {
 	id: string;
+	username: string;
 	name: string;
 	web: string;
 	bio: string;
@@ -23,6 +24,7 @@ export class ProfileVM {
 		kweets?: KweetType[]
 	) {
 		this.id = profile.id;
+		this.username = username;
 		this.name = profile.name;
 		this.web = profile.web;
 		this.bio = profile.bio;
