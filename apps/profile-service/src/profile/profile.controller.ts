@@ -70,16 +70,6 @@ export class ProfileController {
 			decoded.token
 		);
 
-		const kweets = await this.axiosKweetService.getByProfileId(
-			profile.id,
-			decoded.token
-		);
-
-		return new ProfileVM(
-			profile as ProfileType,
-			decoded.username,
-			trends,
-			kweets
-		);
+		return new ProfileVM(profile as ProfileType, decoded.username, trends);
 	}
 }

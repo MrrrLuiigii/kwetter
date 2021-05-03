@@ -15,15 +15,13 @@ export class KweetService {
 		return await this.kweetRepository.save(kweet);
 	}
 
-	public async getByProfileId(
-		id: string,
-		pagination: QueryParams = { skip: 0, take: 10 }
-	) {
-		return await this.kweetRepository.find({
+	public async getByProfileId(id: string, pagination: QueryParams) {
+		const [data, count] = await this.kweetRepository.findAndCount({
 			where: { profileId: id },
 			order: { createdAt: "DESC" },
 			take: pagination.take,
 			skip: pagination.skip
 		});
+		return { data, count };
 	}
 }

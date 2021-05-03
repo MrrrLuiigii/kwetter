@@ -15,14 +15,8 @@ export class ProfileVM {
 	likes: string[]; //TODO
 	mentions: string[]; //TODO
 	trends: TrendVM[];
-	kweets: KweetVM[];
 
-	constructor(
-		profile: ProfileType,
-		username: string,
-		trends?: TrendType[],
-		kweets?: KweetType[]
-	) {
+	constructor(profile: ProfileType, username: string, trends?: TrendType[]) {
 		this.id = profile.id;
 		this.username = username;
 		this.name = profile.name;
@@ -37,16 +31,6 @@ export class ProfileVM {
 		if (trends && trends.length)
 			trends.forEach((trend) => {
 				this.trends.push(new TrendVM(trend));
-			});
-
-		this.kweets = [];
-		if (kweets && kweets.length)
-			kweets.forEach((kweet) => {
-				const trends = [];
-				kweet.trends.forEach((t) => {
-					trends.push(new TrendVM((t as unknown) as TrendType));
-				});
-				this.kweets.push(new KweetVM(kweet, username, trends));
 			});
 	}
 }

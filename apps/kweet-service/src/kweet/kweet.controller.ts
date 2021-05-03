@@ -64,22 +64,22 @@ export class KweetController {
 		@Param("id") id: string,
 		@Query() query: QueryParams = { skip: 0, take: 10 }
 	) {
-		const kweets = await this.kweetService.getByProfileId(id, {
+		const { data, count } = await this.kweetService.getByProfileId(id, {
 			skip: query.skip,
 			take: query.take
 		});
 
 		const kweetVMs: KweetVM[] = [];
-		for (let i = 0; i < kweets.length; i++) {
+		for (let i = 0; i < data.length; i++) {
 			const trends = await this.axiosTrendService.getTrends(
-				kweets[i].trends,
+				data[i].trends,
 				decoded.token
 			);
 			kweetVMs.push(
-				new KweetVM(kweets[i] as KweetType, decoded.username, trends)
+				new KweetVM(data[i] as KweetType, decoded.username, trends)
 			);
 		}
 
-		return kweetVMs;
+		return { data: kweetVMs, count };
 	}
 }

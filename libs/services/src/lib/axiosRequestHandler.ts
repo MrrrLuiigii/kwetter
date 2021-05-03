@@ -14,21 +14,10 @@ class AxiosRequestHandler {
 		if (this.api) this.api.defaults.headers["Authorization"] = token;
 	}
 
-	private static setPaginationParams(url: string, pagination: QueryParams) {
-		if (url.indexOf("?") > -1)
-			return `${url}&skip=${pagination.skip}&take=${pagination.take}`;
-		return `${url}?skip=${pagination.skip}&take=${pagination.take}`;
-	}
-
-	public static get(
-		url: string,
-		token: string,
-		pagination: QueryParams = { skip: 0, take: 10 }
-	): any {
+	public static get(url: string, token: string, pagination?: QueryParams): any {
 		this.setAuthHeaders(token);
-		url = this.setPaginationParams(url, pagination);
 		return this.api
-			.get(url)
+			.get(url, pagination ? { params: pagination } : {})
 			.then((res: AxiosResponse) => {
 				if (!this.checkResponseOK(res))
 					throw this.checkStatusCode(res.status, res.data);
