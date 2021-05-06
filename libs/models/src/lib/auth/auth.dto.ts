@@ -45,6 +45,11 @@ export class RegisterRequest {
 }
 
 export class LoginRequest {
+	@IsAlphanumeric()
+	@Length(3, 15)
 	username: string;
+
+	@IsString()
+	@Length(10)
 	password: string;
 }

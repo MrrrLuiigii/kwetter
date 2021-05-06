@@ -24,7 +24,7 @@ describe("ProfileController", () => {
 	decoded.username = "";
 	const mockCreateProfile = new CreateProfileRequest();
 	const mockProfile = new Profile();
-	const mockProfileVM = new ProfileVM(mockProfile as ProfileType, "");
+	const mockProfileVM = new ProfileVM(mockProfile as ProfileType);
 
 	let mockProfileService = {
 		createProfile: async () => mockProfile,

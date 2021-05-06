@@ -9,6 +9,9 @@ export default class Profile {
 	authId!: string;
 
 	@Column()
+	username!: string;
+
+	@Column()
 	name!: string;
 
 	@Column()

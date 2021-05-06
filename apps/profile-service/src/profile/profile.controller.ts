@@ -6,6 +6,7 @@ import {
 	Inject,
 	Param,
 	Post,
+	Query,
 	Req
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
@@ -21,7 +22,8 @@ import {
 	CreateProfileRequest,
 	ProfileVM,
 	NotFoundException,
-	ProfileType
+	ProfileType,
+	ProfileSearchVM
 } from "@kwetter/models";
 import { TrendType } from "libs/models/src/lib/trend/trend.type";
 
@@ -30,7 +32,6 @@ export class ProfileController {
 	constructor(
 		private readonly profileService: ProfileService,
 		private readonly axiosTrendService: AxiosTrendService,
-		private readonly axiosKweetService: AxiosKweetService,
 		@Inject("PROFILE_SERVICE") private readonly client: ClientProxy
 	) {}
 
@@ -39,7 +40,11 @@ export class ProfileController {
 		@Headers("decoded") decoded: DecodedToken,
 		@Body() createProfileRequest: CreateProfileRequest
 	) {
-		const profile: Profile = { ...createProfileRequest, authId: decoded.id };
+		const profile: Profile = {
+			...createProfileRequest,
+			authId: decoded.id,
+			username: decoded.username
+		};
 		const trends = await this.axiosTrendService.getTrendIds(
 			profile.trends,
 			decoded.token
@@ -47,12 +52,11 @@ export class ProfileController {
 		profile.trends = trends.map((trend: TrendType) => trend.id);
 		return new ProfileVM(
 			(await this.profileService.createProfile(profile)) as ProfileType,
-			decoded.username,
 			trends
 		);
 	}
 
-	@Get(":id?")
+	@Get("id/:id?")
 	async getProfile(
 		@Headers("decoded") decoded: DecodedToken,
 		@Param("id") id?: string
@@ -70,6 +74,16 @@ export class ProfileController {
 			decoded.token
 		);
 
-		return new ProfileVM(profile as ProfileType, decoded.username, trends);
+		return new ProfileVM(profile as ProfileType, trends);
+	}
+
+	@Get()
+	async getProfiles(
+		@Headers("decoded") decoded: DecodedToken,
+		@Query("username") username: string
+	) {
+		return (await this.profileService.getprofiles(username)).map(
+			(p) => new ProfileSearchVM(p as ProfileType)
+		);
 	}
 }

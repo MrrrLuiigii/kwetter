@@ -29,4 +29,12 @@ export class ProfileService {
 			return await this.profileRepository.findOne({ where: { authId: id } });
 		return await this.profileRepository.findOne(id);
 	}
+
+	public async getprofiles(username: string) {
+		return await this.profileRepository
+			.createQueryBuilder("profile")
+			.where("profile.username like :username", { username: `%${username}%` })
+			.orWhere("profile.name like :name", { name: `%${username}%` })
+			.getMany();
+	}
 }
