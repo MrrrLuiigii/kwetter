@@ -16,16 +16,19 @@ import Profile from "./profile.entity";
 import { ProfileService } from "./profile.service";
 
 //libs
-import { AxiosKweetService, AxiosTrendService } from "@kwetter/services";
+import { AxiosTrendService } from "@kwetter/services";
 import {
 	DecodedToken,
 	CreateProfileRequest,
 	ProfileVM,
 	NotFoundException,
 	ProfileType,
-	ProfileSearchVM
+	ProfileSearchVM,
+	ProfileMinVM,
+	BadRequestException
 } from "@kwetter/models";
 import { TrendType } from "libs/models/src/lib/trend/trend.type";
+import { isArray, isUUID } from "class-validator";
 
 @Controller("profile")
 export class ProfileController {
@@ -77,12 +80,43 @@ export class ProfileController {
 		return new ProfileVM(profile as ProfileType, trends);
 	}
 
+	@Get("min/:id")
+	async getMinimalProfile(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("id") id: string
+	) {
+		return new ProfileMinVM(
+			(await this.profileService.getProfile(id, false)) as ProfileType
+		);
+	}
+
+	@Get("allmin/:ids")
+	async getMinimalProfiles(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("ids") ids: string
+	) {
+		let idsArray = [];
+		try {
+			idsArray = ids.split(",");
+			if (!isArray(idsArray)) throw idsArray;
+			idsArray.forEach((id) => {
+				if (!isUUID(id)) throw idsArray;
+			});
+		} catch (err) {
+			throw new BadRequestException("Ids must be an array of uuid values...");
+		}
+
+		return (await this.profileService.getProfilesByIds(idsArray)).map(
+			(p) => new ProfileMinVM(p as ProfileType)
+		);
+	}
+
 	@Get()
-	async getProfiles(
+	async getProfilesByUsername(
 		@Headers("decoded") decoded: DecodedToken,
 		@Query("username") username: string
 	) {
-		return (await this.profileService.getprofiles(username)).map(
+		return (await this.profileService.getProfilesByUsername(username)).map(
 			(p) => new ProfileSearchVM(p as ProfileType)
 		);
 	}

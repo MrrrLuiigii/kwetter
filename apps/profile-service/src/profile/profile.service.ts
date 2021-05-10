@@ -30,11 +30,22 @@ export class ProfileService {
 		return await this.profileRepository.findOne(id);
 	}
 
-	public async getprofiles(username: string) {
+	public async getProfilesByUsername(username: string) {
 		return await this.profileRepository
 			.createQueryBuilder("profile")
 			.where("profile.username like :username", { username: `%${username}%` })
 			.orWhere("profile.name like :name", { name: `%${username}%` })
 			.getMany();
+	}
+
+	public async getProfilesByIds(ids: string[]) {
+		const profileObjects: Profile[] = [];
+		ids.forEach((id: string) => {
+			const profile = new Profile();
+			profile.id = id;
+			profileObjects.push(profile);
+		});
+
+		return await this.profileRepository.find({ where: profileObjects });
 	}
 }

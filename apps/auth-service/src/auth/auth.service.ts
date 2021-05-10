@@ -97,8 +97,8 @@ export class AuthService {
 				email: auth.email,
 				role: auth.role
 			},
-			this.jwtSecret
-			// { expiresIn: "1h" } //TODO: set back to one hour
+			this.jwtSecret,
+			{ expiresIn: "10h" } //TODO: set back to one hour
 		);
 		const authVM: AuthVM = {
 			id: auth.id,

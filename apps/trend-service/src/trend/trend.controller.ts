@@ -18,7 +18,7 @@ export class TrendController {
 		return await this.trendService.addTrends(addTrendsRequest.trends);
 	}
 
-	@Get("/:ids")
+	@Get(":ids")
 	async getTrends(@Param("ids") ids: string) {
 		let idsArray = [];
 		try {

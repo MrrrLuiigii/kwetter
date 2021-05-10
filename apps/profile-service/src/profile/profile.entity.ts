@@ -21,19 +21,10 @@ export default class Profile {
 	bio!: string;
 
 	@Column("simple-array", { nullable: true })
-	followers?: string[];
-
-	@Column("simple-array", { nullable: true })
-	followed?: string[];
-
-	@Column("simple-array", { nullable: true })
 	likes?: string[];
 
 	@Column("simple-array", { nullable: true })
 	mentions?: string[];
-
-	@Column("simple-array", { nullable: true })
-	kweets?: string[];
 
 	@Column("simple-array", { nullable: true })
 	trends?: string[];

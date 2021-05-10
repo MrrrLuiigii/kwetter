@@ -8,8 +8,6 @@ export class ProfileVM {
 	name: string;
 	web: string;
 	bio: string;
-	followers: string[]; //TODO
-	followed: string[]; //TODO
 	likes: string[]; //TODO
 	mentions: string[]; //TODO
 	trends: TrendVM[];
@@ -20,8 +18,6 @@ export class ProfileVM {
 		this.name = profile.name;
 		this.web = profile.web;
 		this.bio = profile.bio;
-		this.followers = profile.followers;
-		this.followed = profile.followed;
 		this.likes = profile.likes;
 		this.mentions = profile.mentions;
 
@@ -44,5 +40,21 @@ export class ProfileSearchVM {
 		this.username = profile.username;
 		this.name = profile.name;
 		this.following = false; //TODO search in array of following
+	}
+}
+
+export class ProfileMinVM {
+	id: string;
+	username: string;
+	name: string;
+	web: string;
+	bio: string;
+
+	constructor(profile: ProfileType) {
+		this.id = profile.id;
+		this.username = profile.username;
+		this.name = profile.name;
+		this.web = profile.web;
+		this.bio = profile.bio;
 	}
 }

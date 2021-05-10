@@ -20,3 +20,6 @@ export * from "./lib/trend/trend.viewmodel";
 export * from "./lib/kweet/kweet.dto";
 export * from "./lib/kweet/kweet.type";
 export * from "./lib/kweet/kweet.viewmodel";
+
+export * from "./lib/follow/follow.dto";
+export * from "./lib/follow/follow.viewmodel";

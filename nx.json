@@ -23,6 +23,7 @@
 		"mail-service": { "tags": [] },
 		"profile-service": { "tags": [] },
 		"trend-service": { "tags": [] },
+		"follow-service": { "tags": [] },
 		"kweet-service": { "tags": [] }
 	}
 }
