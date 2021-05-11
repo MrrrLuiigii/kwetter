@@ -23,7 +23,6 @@ export class TrendService {
 			.values(trendObjects)
 			.orIgnore()
 			.execute();
-
 		return await this.getTrendsByName(trends);
 	}
 
@@ -34,7 +33,6 @@ export class TrendService {
 			trend.id = id;
 			trendObjects.push(trend);
 		});
-
 		return await this.trendRepository.find({ where: trendObjects });
 	}
 

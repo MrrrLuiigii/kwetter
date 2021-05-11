@@ -52,6 +52,7 @@ export class KweetController {
 			postKweetRequest.trends,
 			decoded.token
 		);
+
 		kweet.trends = trends.map((trend: TrendType) => trend.id);
 		return new KweetVM(
 			(await this.kweetService.postKweet(kweet)) as KweetType,
@@ -73,10 +74,12 @@ export class KweetController {
 
 		const kweetVMs: KweetVM[] = [];
 		for (let i = 0; i < data.length; i++) {
-			const trends = await this.axiosTrendService.getTrends(
-				data[i].trends,
-				decoded.token
-			);
+			let trends = [];
+			if (data[i].trends.length > 0)
+				trends = await this.axiosTrendService.getTrends(
+					data[i].trends,
+					decoded.token
+				);
 			kweetVMs.push(
 				new KweetVM(data[i] as KweetType, decoded.username, trends)
 			);
@@ -106,10 +109,12 @@ export class KweetController {
 
 		const kweetVMs: KweetVM[] = [];
 		for (let i = 0; i < data.length; i++) {
-			const trends = await this.axiosTrendService.getTrends(
-				data[i].trends,
-				decoded.token
-			);
+			let trends = [];
+			if (data[i].trends.length > 0)
+				trends = await this.axiosTrendService.getTrends(
+					data[i].trends,
+					decoded.token
+				);
 			const username: string = following.find(
 				(f: ProfileMinVM) => f.id === data[i].profileId
 			).username;

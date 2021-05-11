@@ -15,6 +15,7 @@ export class TrendController {
 
 	@Post()
 	async addTrends(@Body() addTrendsRequest: AddTrendsRequest) {
+		if (addTrendsRequest.trends.length === 0) return [];
 		return await this.trendService.addTrends(addTrendsRequest.trends);
 	}
 
@@ -30,6 +31,8 @@ export class TrendController {
 		} catch (err) {
 			throw new BadRequestException("Ids must be an array of uuid values...");
 		}
+
+		if (idsArray.length === 0) return [];
 
 		return await this.trendService.getTrendsByIds(idsArray);
 	}
