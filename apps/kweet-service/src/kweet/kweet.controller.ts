@@ -99,11 +99,23 @@ export class KweetController {
 		if (following.length === 0) return { data: [], count: 0 };
 		const ids = following.map((f: ProfileMinVM) => f.id);
 
-		console.log(ids);
-
-		return await this.kweetService.getFeed(ids, {
+		const { data, count } = await this.kweetService.getFeed(ids, {
 			skip: query.skip,
 			take: query.take
 		});
+
+		const kweetVMs: KweetVM[] = [];
+		for (let i = 0; i < data.length; i++) {
+			const trends = await this.axiosTrendService.getTrends(
+				data[i].trends,
+				decoded.token
+			);
+			const username: string = following.find(
+				(f: ProfileMinVM) => f.id === data[i].profileId
+			).username;
+			kweetVMs.push(new KweetVM(data[i] as KweetType, username, trends));
+		}
+
+		return { data: kweetVMs, count };
 	}
 }
