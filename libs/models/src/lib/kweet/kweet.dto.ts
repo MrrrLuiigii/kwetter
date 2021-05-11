@@ -1,7 +1,8 @@
-import { IsArray, IsString, IsUUID } from "class-validator";
+import { IsArray, IsString, IsUUID, Length } from "class-validator";
 
 export class PostKweetRequest {
 	@IsString()
+	@Length(1, 140)
 	body: string;
 
 	@IsUUID()

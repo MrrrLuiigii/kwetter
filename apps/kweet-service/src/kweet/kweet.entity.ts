@@ -5,7 +5,7 @@ export default class Kweet {
 	@PrimaryGeneratedColumn("uuid")
 	id?: string;
 
-	@Column()
+	@Column({ length: 140 })
 	body!: string;
 
 	@Column()
