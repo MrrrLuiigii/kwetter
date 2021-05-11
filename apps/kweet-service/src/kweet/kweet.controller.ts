@@ -22,16 +22,18 @@ import {
 	PostKweetRequest,
 	KweetVM,
 	KweetType,
-	QueryParams
+	QueryParams,
+	TrendType,
+	ProfileMinVM
 } from "@kwetter/models";
-import { AxiosTrendService } from "@kwetter/services";
-import { TrendType } from "libs/models/src/lib/trend/trend.type";
+import { AxiosFollowService, AxiosTrendService } from "@kwetter/services";
 
 @Controller("kweet")
 export class KweetController {
 	constructor(
 		private readonly kweetService: KweetService,
 		private readonly axiosTrendService: AxiosTrendService,
+		private readonly axiosFollowService: AxiosFollowService,
 		@Inject("KWEET_SERVICE") private readonly client: ClientProxy
 	) {}
 
@@ -58,8 +60,8 @@ export class KweetController {
 		);
 	}
 
-	@Get("/:id")
-	async getKweets(
+	@Get(":id")
+	async getKweetsByProfileId(
 		@Headers("decoded") decoded: DecodedToken,
 		@Param("id") id: string,
 		@Query() query: QueryParams = { skip: 0, take: 10 }
@@ -81,5 +83,27 @@ export class KweetController {
 		}
 
 		return { data: kweetVMs, count };
+	}
+
+	@Get("feed/:id")
+	async getKweetsFeed(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("id") id: string,
+		@Query() query: QueryParams = { skip: 0, take: 10 }
+	) {
+		const { following } = await this.axiosFollowService.getFollowsByProfileId(
+			id,
+			decoded.token
+		);
+
+		if (following.length === 0) return { data: [], count: 0 };
+		const ids = following.map((f: ProfileMinVM) => f.id);
+
+		console.log(ids);
+
+		return await this.kweetService.getFeed(ids, {
+			skip: query.skip,
+			take: query.take
+		});
 	}
 }

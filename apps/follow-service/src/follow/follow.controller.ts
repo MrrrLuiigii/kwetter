@@ -2,8 +2,7 @@ import {
 	DecodedToken,
 	FollowRequest,
 	FollowVM,
-	ProfileMinVM,
-	ProfileType
+	ProfileMinVM
 } from "@kwetter/models";
 import {
 	Headers,

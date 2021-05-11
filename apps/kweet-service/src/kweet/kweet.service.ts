@@ -24,4 +24,21 @@ export class KweetService {
 		});
 		return { data, count };
 	}
+
+	public async getFeed(ids: string[], pagination: QueryParams) {
+		const kweetObjects: Kweet[] = [];
+		ids.forEach((id: string) => {
+			const kweet = new Kweet();
+			kweet.profileId = id;
+			kweetObjects.push(kweet);
+		});
+
+		const [data, count] = await this.kweetRepository.findAndCount({
+			where: kweetObjects,
+			order: { createdAt: "DESC" },
+			take: pagination.take,
+			skip: pagination.skip
+		});
+		return { data, count };
+	}
 }
