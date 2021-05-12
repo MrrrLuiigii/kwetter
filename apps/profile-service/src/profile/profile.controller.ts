@@ -48,7 +48,7 @@ export class ProfileController {
 			authId: decoded.id,
 			username: decoded.username
 		};
-		const trends = await this.axiosTrendService.getTrendIds(
+		const trends = await this.axiosTrendService.postAndGetTrendIds(
 			profile.trends,
 			decoded.token
 		);

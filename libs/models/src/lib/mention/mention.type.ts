@@ -4,6 +4,6 @@ export class MentionType {
 	id: string;
 	type: MentionSource;
 	mention: string;
-	name: string;
+	profileId: string;
 	sourceId: string;
 }

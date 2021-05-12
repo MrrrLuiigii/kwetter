@@ -19,7 +19,7 @@ export class AxiosTrendService {
 			});
 	}
 
-	public getTrendIds(trends: string[], token: string) {
+	public postAndGetTrendIds(trends: string[], token: string) {
 		const addTrendsRequest: AddTrendsRequest = {
 			trends
 		};

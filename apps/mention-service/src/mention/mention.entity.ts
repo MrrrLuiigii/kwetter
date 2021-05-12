@@ -11,10 +11,10 @@ export default class Mention {
 	type!: MentionSource;
 
 	@Column()
-	mention!: string;
+	profileId!: string;
 
 	@Column()
-	name!: string;
+	mention!: string;
 
 	//MentionType.Kweet   ->    kweet.id
 	//MentionType.Bio     ->    profile.id

@@ -48,7 +48,7 @@ export class KweetController {
 			createdAt: new Date(new Date().getTime() + 0 * 60 * 60 * 1000)
 		};
 
-		const trends = await this.axiosTrendService.getTrendIds(
+		const trends = await this.axiosTrendService.postAndGetTrendIds(
 			postKweetRequest.trends,
 			decoded.token
 		);
