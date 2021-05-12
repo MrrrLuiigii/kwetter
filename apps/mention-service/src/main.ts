@@ -21,12 +21,12 @@ async function bootstrap() {
 			auth_pass: REDIS_PASSWORD
 		}
 	});
-	const port = new ConfigService().get<number>("PORT") || 3004;
+	const port = new ConfigService().get<number>("PORT") || 3007;
 	app.useGlobalPipes(new ValidationPipe());
 	app.enableCors();
 	await app.startAllMicroservicesAsync();
 	app.use(authenticate);
 	await app.listen(port);
-	console.log(`Trend-service is listening on: ${await app.getUrl()}`);
+	console.log(`Mention-service is listening on: ${await app.getUrl()}`);
 }
 bootstrap();

@@ -2,10 +2,10 @@ import { Module } from "@nestjs/common";
 import { ClientsModule, Transport } from "@nestjs/microservices";
 import { TypeOrmModule } from "@nestjs/typeorm";
 
-//trend
-import Trend from "./trend.entity";
-import { TrendController } from "./trend.controller";
-import { TrendService } from "./trend.service";
+//mention
+import Mention from "./mention.entity";
+import { MentionController } from "./mention.controller";
+import { MentionService } from "./mention.service";
 
 const REDIS_HOST = process.env.REDIS_HOST
 	? process.env.REDIS_HOST
@@ -16,10 +16,10 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 
 @Module({
 	imports: [
-		TypeOrmModule.forFeature([Trend]),
+		TypeOrmModule.forFeature([Mention]),
 		ClientsModule.register([
 			{
-				name: "TREND_SERVICE",
+				name: "MENTION_SERVICE",
 				transport: Transport.REDIS,
 				options: {
 					url: REDIS_HOST,
@@ -28,7 +28,7 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 			}
 		])
 	],
-	controllers: [TrendController],
-	providers: [TrendService]
+	controllers: [MentionController],
+	providers: [MentionService]
 })
-export class TrendModule {}
+export class MentionModule {}
