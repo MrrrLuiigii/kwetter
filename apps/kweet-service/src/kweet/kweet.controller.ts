@@ -26,12 +26,17 @@ import {
 	TrendType,
 	ProfileMinVM
 } from "@kwetter/models";
-import { AxiosFollowService, AxiosTrendService } from "@kwetter/services";
+import {
+	AxiosFollowService,
+	AxiosProfileService,
+	AxiosTrendService
+} from "@kwetter/services";
 
 @Controller("kweet")
 export class KweetController {
 	constructor(
 		private readonly kweetService: KweetService,
+		private readonly axiosProfileService: AxiosProfileService,
 		private readonly axiosTrendService: AxiosTrendService,
 		private readonly axiosFollowService: AxiosFollowService,
 		@Inject("KWEET_SERVICE") private readonly client: ClientProxy
@@ -72,6 +77,11 @@ export class KweetController {
 			take: query.take
 		});
 
+		const profile = await this.axiosProfileService.getMinimalProfileById(
+			id,
+			decoded.token
+		);
+
 		const kweetVMs: KweetVM[] = [];
 		for (let i = 0; i < data.length; i++) {
 			let trends = [];
@@ -81,7 +91,7 @@ export class KweetController {
 					decoded.token
 				);
 			kweetVMs.push(
-				new KweetVM(data[i] as KweetType, decoded.username, trends)
+				new KweetVM(data[i] as KweetType, profile.username, trends)
 			);
 		}
 

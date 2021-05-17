@@ -8,7 +8,11 @@ import { KweetController } from "./kweet.controller";
 import { KweetService } from "./kweet.service";
 
 //libs
-import { AxiosFollowService, AxiosTrendService } from "@kwetter/services";
+import {
+	AxiosFollowService,
+	AxiosProfileService,
+	AxiosTrendService
+} from "@kwetter/services";
 
 const REDIS_HOST = process.env.REDIS_HOST
 	? process.env.REDIS_HOST
@@ -32,6 +36,11 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 		])
 	],
 	controllers: [KweetController],
-	providers: [KweetService, AxiosTrendService, AxiosFollowService]
+	providers: [
+		KweetService,
+		AxiosProfileService,
+		AxiosTrendService,
+		AxiosFollowService
+	]
 })
 export class KweetModule {}
