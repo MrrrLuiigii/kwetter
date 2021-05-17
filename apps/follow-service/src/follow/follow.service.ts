@@ -27,4 +27,15 @@ export class FollowService {
 			followers: await this.followRepository.find({ where: { profileId } })
 		};
 	}
+
+	public async isFollowing(
+		profileId: string,
+		followingId: string
+	): Promise<boolean> {
+		return (await this.followRepository.findOne({
+			where: { followerId: profileId, profileId: followingId }
+		}))
+			? true
+			: false;
+	}
 }

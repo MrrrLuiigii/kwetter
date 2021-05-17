@@ -45,12 +45,18 @@ export class FollowController {
 
 		follow = await this.followService.follow(follow);
 
-		return new ProfileMinVM(
-			await this.axiosProfileService.getMinimalProfileById(
+		return {
+			follower: new ProfileMinVM(
+				await this.axiosProfileService.getMinimalProfileById(
+					follow.followerId,
+					decoded.token
+				)
+			),
+			following: await this.axiosProfileService.getMinimalProfileById(
 				follow.profileId,
 				decoded.token
 			)
-		);
+		};
 	}
 
 	@Delete()
@@ -94,5 +100,13 @@ export class FollowController {
 		}
 
 		return new FollowVM(followers, following);
+	}
+
+	@Get(":profileId/:followingId")
+	async isFollowing(
+		@Param("profileId") profileId: string,
+		@Param("followingId") followingId: string
+	) {
+		return await this.followService.isFollowing(profileId, followingId);
 	}
 }
