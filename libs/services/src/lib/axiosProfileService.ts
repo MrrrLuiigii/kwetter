@@ -29,4 +29,16 @@ export class AxiosProfileService {
 				throw err;
 			});
 	}
+
+	public getProfileByUsername(username: string, token: string) {
+		const url: string = `${this.serviceUrl}/username/${username}`;
+
+		return AxiosRequestHandler.get(url, token)
+			.then((res: AxiosResponse) => {
+				return res.data;
+			})
+			.catch((err: any) => {
+				throw err;
+			});
+	}
 }

@@ -7,8 +7,7 @@ import {
 	Post,
 	Headers,
 	HttpCode,
-	Query,
-	DefaultValuePipe
+	Query
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
@@ -24,7 +23,8 @@ import {
 	KweetType,
 	QueryParams,
 	TrendType,
-	ProfileMinVM
+	ProfileMinVM,
+	BadRequestException
 } from "@kwetter/models";
 import {
 	AxiosFollowService,
@@ -52,6 +52,18 @@ export class KweetController {
 			...postKweetRequest,
 			createdAt: new Date(new Date().getTime() + 0 * 60 * 60 * 1000)
 		};
+
+		for (let i = 0; i < kweet.mentions.length; i++) {
+			await this.axiosProfileService
+				.getProfileByUsername(kweet.mentions[i].substring(1), decoded.token)
+				.catch((err: any) => {
+					throw new BadRequestException(
+						`User with username ${kweet.mentions[i].substring(
+							1
+						)} does not exist...`
+					);
+				});
+		}
 
 		const trends = await this.axiosTrendService.postAndGetTrendIds(
 			postKweetRequest.trends,

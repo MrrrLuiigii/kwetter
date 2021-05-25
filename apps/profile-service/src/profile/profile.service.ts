@@ -38,6 +38,10 @@ export class ProfileService {
 			.getMany();
 	}
 
+	public async getProfileByUsername(username: string) {
+		return await this.profileRepository.findOne({ where: { username } });
+	}
+
 	public async getProfilesByIds(ids: string[]) {
 		const profileObjects: Profile[] = [];
 		ids.forEach((id: string) => {

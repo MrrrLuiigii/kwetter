@@ -6,8 +6,7 @@ import {
 	Inject,
 	Param,
 	Post,
-	Query,
-	Req
+	Query
 } from "@nestjs/common";
 import { ClientProxy } from "@nestjs/microservices";
 
@@ -109,6 +108,20 @@ export class ProfileController {
 		return (await this.profileService.getProfilesByIds(idsArray)).map(
 			(p) => new ProfileMinVM(p as ProfileType)
 		);
+	}
+
+	@Get("username/:username")
+	async getProfileByUsername(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("username") username: string
+	) {
+		const profile = await this.profileService.getProfileByUsername(username);
+		if (!profile) throw new NotFoundException();
+		const trends = await this.axiosTrendService.getTrends(
+			profile.trends,
+			decoded.token
+		);
+		return new ProfileVM(profile as ProfileType, trends);
 	}
 
 	@Get()
