@@ -24,7 +24,3 @@ export * from "./lib/kweet/kweet.viewmodel";
 
 export * from "./lib/follow/follow.dto";
 export * from "./lib/follow/follow.viewmodel";
-
-export * from "./lib/mention/mention.dto";
-export * from "./lib/mention/mention.enum";
-export * from "./lib/mention/mention.type";

@@ -24,7 +24,6 @@
 		"profile-service": { "tags": [] },
 		"trend-service": { "tags": [] },
 		"follow-service": { "tags": [] },
-		"kweet-service": { "tags": [] },
-		"mention-service": { "tags": [] }
+		"kweet-service": { "tags": [] }
 	}
 }

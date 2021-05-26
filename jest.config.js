@@ -8,7 +8,6 @@ module.exports = {
 		"<rootDir>/apps/follow-service",
 		"<rootDir>/libs/auth",
 		"<rootDir>/libs/services",
-		"<rootDir>/apps/kweet-service",
-		"<rootDir>/apps/mention-service"
+		"<rootDir>/apps/kweet-service"
 	]
 };
