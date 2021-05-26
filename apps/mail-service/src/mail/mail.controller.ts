@@ -1,13 +1,11 @@
 import { Controller } from "@nestjs/common";
-import {
-	Ctx,
-	MessagePattern,
-	Payload,
-	RedisContext
-} from "@nestjs/microservices";
+import { MessagePattern, Payload } from "@nestjs/microservices";
 
-import { UserRegisteredEvent } from "../event/user-registered.event";
+//mail
 import { MailService } from "./mail.service";
+
+//libs
+import { UserRegisteredEvent } from "@kwetter/models";
 
 @Controller("mail")
 export class MailController {

@@ -9,4 +9,19 @@ export class LikeService {
 		@InjectRepository(Like)
 		private likeRepository: Repository<Like>
 	) {}
+
+	public async likeKweet(like: Like) {
+		return await this.likeRepository.save(like);
+	}
+
+	public async unlikeKweet(like: Like) {
+		return await this.likeRepository.delete({
+			kweetId: like.kweetId,
+			profileId: like.profileId
+		});
+	}
+
+	public async getLikesByKweet(kweetId: string) {
+		return await this.likeRepository.find({ where: { kweetId } });
+	}
 }

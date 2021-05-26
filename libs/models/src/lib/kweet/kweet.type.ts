@@ -5,5 +5,5 @@ export class KweetType {
 	createdAt: Date;
 	mentions: string[];
 	trends: string[];
-	likes: string[];
+	likes: number;
 }

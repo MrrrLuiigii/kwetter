@@ -1,3 +1,5 @@
+import { LikeType } from "../like/like.type";
+import { LikeVM } from "../like/like.viewmodel";
 import { TrendType } from "../trend/trend.type";
 import { TrendVM } from "../trend/trend.viewmodel";
 import { KweetType } from "./kweet.type";
@@ -18,10 +20,15 @@ export class KweetVM {
 	profile: KweetProfileVM;
 	trends: TrendVM[];
 	mentions: string[]; //TODO: MentionVM type
-	likes: string[]; //TODO LikeVM type
+	likes: KweetLikesVM; //TODO LikeVM type
 	createdAt: Date;
 
-	constructor(kweet: KweetType, username: string, trends?: TrendType[]) {
+	constructor(
+		kweet: KweetType,
+		username: string,
+		trends?: TrendType[],
+		likes?: LikeType[]
+	) {
 		this.id = kweet.id;
 		this.body = kweet.body;
 		this.profile = new KweetProfileVM(kweet.profileId, username);
@@ -30,9 +37,24 @@ export class KweetVM {
 			trends.forEach((trend) => {
 				this.trends.push(new TrendVM(trend));
 			});
-
 		this.mentions = kweet.mentions;
-		this.likes = kweet.likes;
+		this.likes = new KweetLikesVM();
+		if (likes && likes.length) {
+			likes.forEach((like) => {
+				this.likes.likes.push(new LikeVM(like));
+			});
+			this.likes.count = likes.length;
+		}
 		this.createdAt = kweet.createdAt;
+	}
+}
+
+class KweetLikesVM {
+	count: number;
+	likes: LikeVM[];
+
+	constructor() {
+		this.count = 0;
+		this.likes = [];
 	}
 }

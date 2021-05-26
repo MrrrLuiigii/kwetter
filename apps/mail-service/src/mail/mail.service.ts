@@ -1,6 +1,8 @@
 import { MailerService } from "@nestjs-modules/mailer";
 import { Injectable } from "@nestjs/common";
-import { UserRegisteredEvent } from "../event/user-registered.event";
+
+//libs
+import { UserRegisteredEvent } from "@kwetter/models";
 
 @Injectable()
 export class MailService {

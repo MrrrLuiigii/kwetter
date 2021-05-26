@@ -20,6 +20,6 @@ export default class Kweet {
 	@Column("simple-array", { nullable: true })
 	trends?: string[];
 
-	@Column("simple-array", { nullable: true })
-	likes?: string[];
+	@Column({ default: 0 })
+	likes?: number;
 }

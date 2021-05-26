@@ -9,7 +9,7 @@ import {
 	HttpCode,
 	Query
 } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
 //kweet
 import Kweet from "./kweet.entity";
@@ -28,6 +28,7 @@ import {
 } from "@kwetter/models";
 import {
 	AxiosFollowService,
+	AxiosLikeService,
 	AxiosProfileService,
 	AxiosTrendService
 } from "@kwetter/services";
@@ -39,6 +40,7 @@ export class KweetController {
 		private readonly axiosProfileService: AxiosProfileService,
 		private readonly axiosTrendService: AxiosTrendService,
 		private readonly axiosFollowService: AxiosFollowService,
+		private readonly axiosLikeService: AxiosLikeService,
 		@Inject("KWEET_SERVICE") private readonly client: ClientProxy
 	) {}
 
@@ -102,8 +104,14 @@ export class KweetController {
 					data[i].trends,
 					decoded.token
 				);
+
+			const likes = await this.axiosLikeService.getLikesByKweet(
+				data[i].id,
+				decoded.token
+			);
+
 			kweetVMs.push(
-				new KweetVM(data[i] as KweetType, profile.username, trends)
+				new KweetVM(data[i] as KweetType, profile.username, trends, likes)
 			);
 		}
 
@@ -137,12 +145,29 @@ export class KweetController {
 					data[i].trends,
 					decoded.token
 				);
+
 			const username: string = following.find(
 				(f: ProfileMinVM) => f.id === data[i].profileId
 			).username;
-			kweetVMs.push(new KweetVM(data[i] as KweetType, username, trends));
+
+			const likes = await this.axiosLikeService.getLikesByKweet(
+				data[i].id,
+				decoded.token
+			);
+
+			kweetVMs.push(new KweetVM(data[i] as KweetType, username, trends, likes));
 		}
 
 		return { data: kweetVMs, count };
+	}
+
+	@MessagePattern("KWEET_LIKED")
+	async kweetLiked(@Payload() message: string) {
+		return await this.kweetService.addLike(message);
+	}
+
+	@MessagePattern("KWEET_UNLIKED")
+	async kweetUnliked(@Payload() message: string) {
+		return await this.kweetService.removeLike(message);
 	}
 }

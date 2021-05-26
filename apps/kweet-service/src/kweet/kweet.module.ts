@@ -10,6 +10,7 @@ import { KweetService } from "./kweet.service";
 //libs
 import {
 	AxiosFollowService,
+	AxiosLikeService,
 	AxiosProfileService,
 	AxiosTrendService
 } from "@kwetter/services";
@@ -40,7 +41,8 @@ const REDIS_PASSWORD = process.env.REDIS_PASSWORD
 		KweetService,
 		AxiosProfileService,
 		AxiosTrendService,
-		AxiosFollowService
+		AxiosFollowService,
+		AxiosLikeService
 	]
 })
 export class KweetModule {}

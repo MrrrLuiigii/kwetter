@@ -1,6 +1,7 @@
-import { Entity, Column, PrimaryGeneratedColumn } from "typeorm";
+import { Entity, Column, PrimaryGeneratedColumn, Unique } from "typeorm";
 
 @Entity("Like")
+@Unique(["kweetId", "profileId"])
 export default class Kweet {
 	@PrimaryGeneratedColumn("uuid")
 	id?: string;

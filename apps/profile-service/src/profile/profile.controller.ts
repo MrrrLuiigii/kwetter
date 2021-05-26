@@ -84,9 +84,11 @@ export class ProfileController {
 		@Headers("decoded") decoded: DecodedToken,
 		@Param("id") id: string
 	) {
-		return new ProfileMinVM(
-			(await this.profileService.getProfile(id, false)) as ProfileType
-		);
+		const profile = await this.profileService.getProfile(id, false);
+		if (!profile)
+			throw new NotFoundException(`Profile with id ${id} does not exist...`);
+
+		return new ProfileMinVM(profile as ProfileType);
 	}
 
 	@Get("allmin/:ids")

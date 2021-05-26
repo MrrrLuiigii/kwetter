@@ -1,4 +1,4 @@
-import { QueryParams } from "@kwetter/models";
+import { BadRequestException, QueryParams } from "@kwetter/models";
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
 import { Repository } from "typeorm";
@@ -40,5 +40,23 @@ export class KweetService {
 			skip: pagination.skip
 		});
 		return { data, count };
+	}
+
+	public async addLike(kweetId: string) {
+		return await this.kweetRepository
+			.createQueryBuilder()
+			.update(Kweet)
+			.set({ likes: () => "likes + 1" })
+			.where("id = :id", { id: kweetId })
+			.execute();
+	}
+
+	public async removeLike(kweetId: string) {
+		const kweet = await this.kweetRepository.findOne(kweetId);
+		if (kweet)
+			return await this.kweetRepository.update(kweetId, {
+				likes: kweet.likes - 1 > 0 ? kweet.likes - 1 : 0
+			});
+		return;
 	}
 }
