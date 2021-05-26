@@ -2,27 +2,25 @@ import { Module } from "@nestjs/common";
 import { ConfigModule, ConfigService } from "@nestjs/config";
 import { TypeOrmModule, TypeOrmModuleOptions } from "@nestjs/typeorm";
 
-//modules
-import { KweetModule } from "./kweet/kweet.module";
-
 //validation
 import * as Joi from "joi";
 
-//entities
-import Kweet from "./kweet/kweet.entity";
+//like
+import Like from "./like/like.entity";
+import { LikeModule } from "./like/like.module";
 
 const configservice = new ConfigService();
 
 @Module({
 	imports: [
-		KweetModule,
+		LikeModule,
 		ConfigModule.forRoot({
 			isGlobal: true,
 			validationSchema: Joi.object({
 				NODE_ENV: Joi.string()
 					.valid("development", "production")
 					.default("development"),
-				PORT_KWEET: Joi.number().default(3005),
+				PORT_LIKE: Joi.number().default(3007),
 				REDIS_HOST: Joi.string().required(),
 				REDIS_PASSWORD: Joi.string().required(),
 				AUTH_SERVICE_HOST: Joi.string().required(),
@@ -50,7 +48,7 @@ const configservice = new ConfigService();
 				TYPEORM_HOST: Joi.string().required(),
 				TYPEORM_USERNAME: Joi.string().required(),
 				TYPEORM_PASSWORD: Joi.string().required(),
-				TYPEORM_DATABASE_KWEET: Joi.string().required(),
+				TYPEORM_DATABASE_LIKE: Joi.string().required(),
 				TYPEORM_PORT: Joi.number().default(3306),
 				TYPEORM_SYNCHRONIZE: Joi.boolean().default(false),
 				TYPEORM_LOGGING: Joi.boolean().default(false)
@@ -62,10 +60,10 @@ const configservice = new ConfigService();
 			port: configservice.get<number>("TYPEORM_PORT"),
 			username: configservice.get<string>("TYPEORM_USERNAME"),
 			password: configservice.get<string>("TYPEORM_PASSWORD"),
-			database: configservice.get<string>("TYPEORM_DATABASE_KWEET"),
+			database: configservice.get<string>("TYPEORM_DATABASE_LIKE"),
 			synchronize: configservice.get<boolean>("TYPEORM_SYNCHRONIZE"),
 			logging: configservice.get<boolean>("TYPEORM_LOGGING"),
-			entities: [Kweet]
+			entities: [Like]
 		} as TypeOrmModuleOptions)
 	]
 })
