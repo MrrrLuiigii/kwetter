@@ -8,7 +8,10 @@ COPY package.json .
 RUN npm install
 ADD . /Kwetter/apps/mail-service
 
-ENV REDIS_HOST "redis://172.17.0.1:6379"
+ENV PORT_MAIL ${PORT_MAIL}
+ENV SMTP_CONNECTION ${SMTP_CONNECTION}
+ENV REDIS_HOST ${REDIS_HOST}
+ENV REDIS_PASSWORD ${REDIS_PASSWORD}
 
 RUN nx build mail-service
 CMD ["nx", "serve", "mail-service"]
