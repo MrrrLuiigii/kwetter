@@ -8,8 +8,7 @@ export class ProfileVM {
 	name: string;
 	web: string;
 	bio: string;
-	likes: string[]; //TODO
-	mentions: string[]; //TODO
+	mentions: string[];
 	trends: TrendVM[];
 
 	constructor(profile: ProfileType, trends?: TrendType[]) {
@@ -18,9 +17,7 @@ export class ProfileVM {
 		this.name = profile.name;
 		this.web = profile.web;
 		this.bio = profile.bio;
-		this.likes = profile.likes;
 		this.mentions = profile.mentions;
-
 		this.trends = [];
 		if (trends && trends.length)
 			trends.forEach((trend) => {
@@ -39,7 +36,6 @@ export class ProfileSearchVM {
 		this.id = profile.id;
 		this.username = profile.username;
 		this.name = profile.name;
-		this.following = false; //TODO search in array of following
 	}
 }
 

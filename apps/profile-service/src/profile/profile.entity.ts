@@ -21,9 +21,6 @@ export default class Profile {
 	bio!: string;
 
 	@Column("simple-array", { nullable: true })
-	likes?: string[];
-
-	@Column("simple-array", { nullable: true })
 	mentions?: string[];
 
 	@Column("simple-array", { nullable: true })

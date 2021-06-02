@@ -13,7 +13,6 @@ export * from "./lib/mail/mail.dto";
 
 export * from "./lib/profile/profile.type";
 export * from "./lib/profile/profile.dto";
-export * from "./lib/profile/profile.enum";
 export * from "./lib/profile/profile.viewmodel";
 
 export * from "./lib/trend/trend.dto";
