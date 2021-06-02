@@ -21,8 +21,5 @@ export default class Profile {
 	bio!: string;
 
 	@Column("simple-array", { nullable: true })
-	mentions?: string[];
-
-	@Column("simple-array", { nullable: true })
 	trends?: string[];
 }

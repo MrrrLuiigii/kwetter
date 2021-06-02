@@ -5,6 +5,5 @@ export class ProfileType {
 	name: string;
 	web: string;
 	bio: string;
-	mentions: string[];
 	trends: string[];
 }

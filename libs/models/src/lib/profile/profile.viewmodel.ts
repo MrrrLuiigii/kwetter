@@ -8,7 +8,6 @@ export class ProfileVM {
 	name: string;
 	web: string;
 	bio: string;
-	mentions: string[];
 	trends: TrendVM[];
 
 	constructor(profile: ProfileType, trends?: TrendType[]) {
@@ -17,7 +16,6 @@ export class ProfileVM {
 		this.name = profile.name;
 		this.web = profile.web;
 		this.bio = profile.bio;
-		this.mentions = profile.mentions;
 		this.trends = [];
 		if (trends && trends.length)
 			trends.forEach((trend) => {
