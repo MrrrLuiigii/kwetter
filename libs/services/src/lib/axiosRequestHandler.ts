@@ -4,7 +4,9 @@ import { QueryParams } from "@kwetter/models";
 
 class AxiosRequestHandler {
 	private static api = axios.create({
-		baseURL: "http://localhost:3000",
+		baseURL: process.env.GATEWAY_HOST
+			? process.env.GATEWAY_HOST
+			: "http://localhost:3000",
 		headers: {
 			Authorization: ""
 		}
