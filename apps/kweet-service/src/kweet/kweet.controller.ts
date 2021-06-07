@@ -7,7 +7,8 @@ import {
 	Post,
 	Headers,
 	HttpCode,
-	Query
+	Query,
+	Delete
 } from "@nestjs/common";
 import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
@@ -24,7 +25,9 @@ import {
 	QueryParams,
 	TrendType,
 	ProfileMinVM,
-	BadRequestException
+	BadRequestException,
+	InternalServerException,
+	UnauthorizedException
 } from "@kwetter/models";
 import {
 	AxiosFollowService,
@@ -78,6 +81,37 @@ export class KweetController {
 			decoded.username,
 			trends
 		);
+	}
+
+	@Delete(":id")
+	async deleteKweet(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("id") id: string
+	) {
+		const kweet = await this.kweetService.getById(id);
+		if (!kweet) {
+			throw new BadRequestException(`Kweet with id ${id} does not exist...`);
+		}
+
+		const profile = await this.axiosProfileService.getProfileByAuthId(
+			decoded.token
+		);
+		if (!profile || profile.id !== kweet.profileId) {
+			throw new UnauthorizedException("You can only delete your own kweets...");
+		}
+
+		await this.kweetService
+			.deleteKweet(kweet.id)
+			.then(() => {
+				this.client
+					.send<string, string>("KWEET_DELETED", kweet.id)
+					.toPromise()
+					.catch(() => {});
+			})
+			.catch(() => {
+				throw new InternalServerException();
+			});
+		return kweet;
 	}
 
 	@Get(":id")

@@ -8,7 +8,7 @@ import {
 	Param,
 	Post
 } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
 //like
 import Like from "./like.entity";
@@ -90,5 +90,10 @@ export class LikeController {
 		const likeVMs: LikeVM[] = [];
 		likes.forEach((like) => likeVMs.push(new LikeVM(like as LikeType)));
 		return likeVMs;
+	}
+
+	@MessagePattern("KWEET_DELETED")
+	async kweetDeleted(@Payload() message: string) {
+		return await this.likeService.kweetDeleted(message);
 	}
 }

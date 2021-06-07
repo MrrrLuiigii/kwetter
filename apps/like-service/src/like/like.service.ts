@@ -24,4 +24,8 @@ export class LikeService {
 	public async getLikesByKweet(kweetId: string) {
 		return await this.likeRepository.find({ where: { kweetId } });
 	}
+
+	public async kweetDeleted(kweetId: string) {
+		return await this.likeRepository.delete({ kweetId });
+	}
 }

@@ -25,6 +25,10 @@ export class KweetService {
 		return { data, count };
 	}
 
+	public async getById(id: string) {
+		return await this.kweetRepository.findOne(id);
+	}
+
 	public async getFeed(ids: string[], pagination: QueryParams) {
 		const kweetObjects: Kweet[] = [];
 		ids.forEach((id: string) => {
@@ -58,5 +62,9 @@ export class KweetService {
 				likes: kweet.likes - 1 > 0 ? kweet.likes - 1 : 0
 			});
 		return;
+	}
+
+	public async deleteKweet(id: string) {
+		return await this.kweetRepository.delete(id);
 	}
 }
