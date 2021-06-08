@@ -2,7 +2,8 @@ import {
 	DecodedToken,
 	FollowRequest,
 	FollowVM,
-	ProfileMinVM
+	ProfileMinVM,
+	ProfileType
 } from "@kwetter/models";
 import {
 	Headers,
@@ -15,7 +16,7 @@ import {
 	Delete,
 	Param
 } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
 //follow
 import Follow from "./follow.entity";
@@ -108,5 +109,10 @@ export class FollowController {
 		@Param("followingId") followingId: string
 	) {
 		return await this.followService.isFollowing(profileId, followingId);
+	}
+
+	@MessagePattern("PROFILE_DELETED")
+	async profileDeleted(@Payload() message: ProfileType) {
+		return await this.followService.deleteProfileFollows(message.id);
 	}
 }

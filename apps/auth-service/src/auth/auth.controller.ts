@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Headers,
 	HttpCode,
@@ -8,13 +9,18 @@ import {
 	Patch,
 	Post
 } from "@nestjs/common";
-import { ClientProxy } from "@nestjs/microservices";
+import { ClientProxy, MessagePattern, Payload } from "@nestjs/microservices";
 
 //services
 import { AuthService } from "./auth.service";
 
 //dto
-import { RegisterRequest, LoginRequest, TokenStatus } from "@kwetter/models";
+import {
+	RegisterRequest,
+	LoginRequest,
+	TokenStatus,
+	ProfileType
+} from "@kwetter/models";
 
 //exceptions
 import { BadRequestException, UnauthorizedException } from "@kwetter/models";
@@ -78,5 +84,10 @@ export class AuthController {
 			case TokenStatus.Invalid:
 				throw new UnauthorizedException("Invalid token...");
 		}
+	}
+
+	@MessagePattern("PROFILE_DELETED")
+	async profileDeleted(@Payload() message: ProfileType) {
+		return await this.authService.deleteAccount(message.authId);
 	}
 }

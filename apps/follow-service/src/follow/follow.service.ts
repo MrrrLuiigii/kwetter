@@ -1,5 +1,6 @@
 import { Injectable } from "@nestjs/common";
 import { InjectRepository } from "@nestjs/typeorm";
+import { profile } from "node:console";
 import { Repository } from "typeorm";
 import Follow from "./follow.entity";
 
@@ -37,5 +38,15 @@ export class FollowService {
 		}))
 			? true
 			: false;
+	}
+
+	public async deleteProfileFollows(profileId: string) {
+		return await this.followRepository
+			.createQueryBuilder()
+			.delete()
+			.from(Follow)
+			.where("profileId = :id", { id: profileId })
+			.orWhere("followerId = :id", { id: profileId })
+			.execute();
 	}
 }

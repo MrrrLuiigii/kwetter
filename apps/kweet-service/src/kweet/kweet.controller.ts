@@ -27,7 +27,8 @@ import {
 	ProfileMinVM,
 	BadRequestException,
 	InternalServerException,
-	UnauthorizedException
+	UnauthorizedException,
+	ProfileType
 } from "@kwetter/models";
 import {
 	AxiosFollowService,
@@ -203,5 +204,17 @@ export class KweetController {
 	@MessagePattern("KWEET_UNLIKED")
 	async kweetUnliked(@Payload() message: string) {
 		return await this.kweetService.removeLike(message);
+	}
+
+	@MessagePattern("PROFILE_DELETED")
+	async profileDeleted(@Payload() message: ProfileType) {
+		const kweets = await this.kweetService.getAndDeleteByProfileId(message.id);
+		kweets.forEach((kweet) => {
+			this.client
+				.send<string, string>("KWEET_DELETED", kweet.id)
+				.toPromise()
+				.catch(() => {});
+		});
+		return kweets;
 	}
 }

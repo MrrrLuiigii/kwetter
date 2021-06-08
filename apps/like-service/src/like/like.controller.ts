@@ -20,7 +20,8 @@ import {
 	InternalServerException,
 	LikeKweetRequest,
 	LikeType,
-	LikeVM
+	LikeVM,
+	ProfileType
 } from "@kwetter/models";
 
 @Controller("like")
@@ -95,5 +96,10 @@ export class LikeController {
 	@MessagePattern("KWEET_DELETED")
 	async kweetDeleted(@Payload() message: string) {
 		return await this.likeService.kweetDeleted(message);
+	}
+
+	@MessagePattern("PROFILE_DELETED")
+	async profileDeleted(@Payload() message: ProfileType) {
+		return await this.likeService.profileDeleted(message.id);
 	}
 }

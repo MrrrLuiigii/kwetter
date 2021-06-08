@@ -28,4 +28,8 @@ export class LikeService {
 	public async kweetDeleted(kweetId: string) {
 		return await this.likeRepository.delete({ kweetId });
 	}
+
+	public async profileDeleted(profileId: string) {
+		return await this.likeRepository.delete({ profileId });
+	}
 }

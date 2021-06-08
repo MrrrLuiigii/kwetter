@@ -129,4 +129,8 @@ export class AuthService {
 			return { status: TokenStatus.Invalid, decoded: {} };
 		}
 	}
+
+	public async deleteAccount(id: string) {
+		return await this.authRepository.delete(id);
+	}
 }

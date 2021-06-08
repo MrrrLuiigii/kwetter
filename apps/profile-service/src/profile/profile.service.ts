@@ -52,4 +52,12 @@ export class ProfileService {
 
 		return await this.profileRepository.find({ where: profileObjects });
 	}
+
+	public async getProfileById(id: string) {
+		return await this.profileRepository.findOne(id);
+	}
+
+	public async deleteProfile(id: string) {
+		return await this.profileRepository.delete(id);
+	}
 }

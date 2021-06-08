@@ -1,6 +1,7 @@
 import {
 	Body,
 	Controller,
+	Delete,
 	Get,
 	Headers,
 	Inject,
@@ -24,7 +25,9 @@ import {
 	ProfileType,
 	ProfileSearchVM,
 	ProfileMinVM,
-	BadRequestException
+	BadRequestException,
+	UnauthorizedException,
+	InternalServerException
 } from "@kwetter/models";
 import { TrendType } from "libs/models/src/lib/trend/trend.type";
 import { isArray, isUUID } from "class-validator";
@@ -134,5 +137,35 @@ export class ProfileController {
 		return (await this.profileService.getProfilesByUsername(username)).map(
 			(p) => new ProfileSearchVM(p as ProfileType)
 		);
+	}
+
+	@Delete(":id")
+	async deleteProfile(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("id") id: string
+	) {
+		const profile = await this.profileService.getProfileById(id);
+		if (!profile) {
+			throw new BadRequestException(`Profile with id ${id} does not exist...`);
+		}
+
+		if (decoded.id !== profile.authId) {
+			throw new UnauthorizedException(
+				"You can only delete your own account..."
+			);
+		}
+
+		await this.profileService
+			.deleteProfile(profile.id)
+			.then(() => {
+				this.client
+					.send<string, Profile>("PROFILE_DELETED", profile)
+					.toPromise()
+					.catch(() => {});
+			})
+			.catch(() => {
+				throw new InternalServerException();
+			});
+		return new ProfileVM(profile as ProfileType);
 	}
 }

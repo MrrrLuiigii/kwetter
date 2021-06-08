@@ -25,6 +25,12 @@ export class KweetService {
 		return { data, count };
 	}
 
+	public async getAndDeleteByProfileId(profileId: string) {
+		const kweets = await this.kweetRepository.find({ where: { profileId } });
+		await this.kweetRepository.delete({ profileId });
+		return kweets;
+	}
+
 	public async getById(id: string) {
 		return await this.kweetRepository.findOne(id);
 	}
