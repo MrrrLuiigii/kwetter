@@ -74,10 +74,12 @@ export class ProfileController {
 
 		if (!profile) throw new NotFoundException();
 
-		const trends = await this.axiosTrendService.getTrends(
-			profile.trends,
-			decoded.token
-		);
+		let trends = [];
+		if (profile.trends.length)
+			trends = await this.axiosTrendService.getTrends(
+				profile.trends,
+				decoded.token
+			);
 
 		return new ProfileVM(profile as ProfileType, trends);
 	}
@@ -122,10 +124,12 @@ export class ProfileController {
 	) {
 		const profile = await this.profileService.getProfileByUsername(username);
 		if (!profile) throw new NotFoundException();
-		const trends = await this.axiosTrendService.getTrends(
-			profile.trends,
-			decoded.token
-		);
+		let trends = [];
+		if (profile.trends.length)
+			trends = await this.axiosTrendService.getTrends(
+				profile.trends,
+				decoded.token
+			);
 		return new ProfileVM(profile as ProfileType, trends);
 	}
 
