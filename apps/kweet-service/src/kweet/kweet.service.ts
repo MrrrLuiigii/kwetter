@@ -52,6 +52,13 @@ export class KweetService {
 		return { data, count };
 	}
 
+	public async getByMention(mention: string, pagination: QueryParams) {
+		// const [data, count] = await this.kweetRepository.findAndCount({
+		// 	where:
+		// })
+		return [];
+	}
+
 	public async addLike(kweetId: string) {
 		return await this.kweetRepository
 			.createQueryBuilder()

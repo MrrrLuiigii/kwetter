@@ -196,6 +196,15 @@ export class KweetController {
 		return { data: kweetVMs, count };
 	}
 
+	@Get("mention/:mention")
+	async getKweetsByMention(
+		@Headers("decoded") decoded: DecodedToken,
+		@Param("mention") mention: string,
+		@Query() query: QueryParams = { skip: 0, take: 10 }
+	) {
+		return this.kweetService.getByMention(mention, query);
+	}
+
 	@MessagePattern("KWEET_LIKED")
 	async kweetLiked(@Payload() message: string) {
 		return await this.kweetService.addLike(message);
