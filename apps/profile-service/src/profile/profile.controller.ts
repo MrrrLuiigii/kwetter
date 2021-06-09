@@ -75,7 +75,7 @@ export class ProfileController {
 		if (!profile) throw new NotFoundException();
 
 		let trends = [];
-		if (profile.trends.length)
+		if (profile.trends && profile.trends.length)
 			trends = await this.axiosTrendService.getTrends(
 				profile.trends,
 				decoded.token
@@ -125,7 +125,7 @@ export class ProfileController {
 		const profile = await this.profileService.getProfileByUsername(username);
 		if (!profile) throw new NotFoundException();
 		let trends = [];
-		if (profile.trends.length)
+		if (profile.trends && profile.trends.length)
 			trends = await this.axiosTrendService.getTrends(
 				profile.trends,
 				decoded.token
